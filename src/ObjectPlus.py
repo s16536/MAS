@@ -3,6 +3,7 @@ from pprint import pp
 
 
 class ObjectPlus:
+    ALL_EXTENTS_PATH = "../allExtents"
     _all_extents = dict()
 
     def __init__(self):
@@ -31,12 +32,12 @@ class ObjectPlus:
 
     @staticmethod
     def _save_extents():
-        with open("../allExtents", 'wb') as outfile:
+        with open(ObjectPlus.ALL_EXTENTS_PATH, 'wb') as outfile:
             pickle.dump(ObjectPlus._all_extents, outfile)
 
     @staticmethod
-    def loadExtents():
-        with open("../allExtents", 'rb') as infile:
+    def load_extents():
+        with open(ObjectPlus.ALL_EXTENTS_PATH, 'rb') as infile:
             ObjectPlus._all_extents = pickle.load(infile)
 
 

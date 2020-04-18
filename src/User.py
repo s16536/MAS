@@ -32,12 +32,11 @@ class User(ObjectPlus):
 
         self._token = uuid4()
         self._token_updated_time = datetime.now()
+        print("Uzytkownik zalogowany")
         return self._token
 
     def _authenticate_with_token(self, token):
-        print(self._token_updated_time + timedelta(minutes=self.token_ttl))
-        print(datetime.now())
-        return (self._token_updated_time + timedelta(minutes=self.token_ttl) < datetime.now()
+        return (datetime.now() < self._token_updated_time + timedelta(minutes=self.token_ttl)
                 and self._token == token)
 
     def get_age(self):

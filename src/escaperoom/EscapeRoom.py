@@ -36,8 +36,7 @@ class EscapeRoom(ObjectPlus):
         return ObjectPlus.get_extent(FixedPriceEscapeRoom) + ObjectPlus.get_extent(VariablePriceEscapeRoom)
 
     def __str__(self):
-        return f"Escape Room : {self._name},    " \
-               f"Category : {self._category}; "
+        return f"Escape Room : {self._name}"
 
 
 class FixedPriceEscapeRoom(EscapeRoom):
@@ -51,7 +50,7 @@ class FixedPriceEscapeRoom(EscapeRoom):
 
     def get_price(self, players_no: int):
         self._validate_players_no(players_no)
-        raise self._price
+        return self._price
 
     @staticmethod
     def get_extent(className=None):
