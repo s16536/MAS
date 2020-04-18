@@ -16,10 +16,10 @@ class ObjectPlus:
         self._save_extents()
 
     @staticmethod
-    def get_extent(className=None):
-        if className is None:
+    def get_extent(class_name=None):
+        if class_name is None:
             return ObjectPlus._all_extents
-        return ObjectPlus._all_extents[className]
+        return ObjectPlus._all_extents[class_name]
 
     @classmethod
     def print_extent(cls):

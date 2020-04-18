@@ -31,9 +31,13 @@ class EscapeRoom(ObjectPlus):
     def get_escape_rooms(category):
         return [v for v in EscapeRoom.get_extent() if v._category == category]
 
-    @classmethod
-    def get_extent(cls):
-        return ObjectPlus.get_extent(FixedPriceEscapeRoom) + ObjectPlus.get_extent(VariablePriceEscapeRoom)
+    @staticmethod
+    def get_extent(class_name=None):
+        all_extents = []
+        for subclass in EscapeRoom.__subclasses__():
+            all_extents += ObjectPlus.get_extent(subclass)
+
+        return all_extents
 
     def __str__(self):
         return f"Escape Room : {self._name}"
@@ -53,7 +57,7 @@ class FixedPriceEscapeRoom(EscapeRoom):
         return self._price
 
     @staticmethod
-    def get_extent(className=None):
+    def get_extent(class_name=None):
         return ObjectPlus.get_extent(FixedPriceEscapeRoom)
 
 
@@ -71,5 +75,5 @@ class VariablePriceEscapeRoom(EscapeRoom):
         return self._price_per_player * players_no
 
     @staticmethod
-    def get_extent(className=None):
+    def get_extent(class_name=None):
         return ObjectPlus.get_extent(VariablePriceEscapeRoom)

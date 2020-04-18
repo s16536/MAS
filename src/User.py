@@ -1,51 +1,50 @@
 from datetime import *
-from uuid import uuid4
 
 from src.ObjectPlus import ObjectPlus
 
 
-class User(ObjectPlus):
-    token_ttl: int = 120
+class Address(object):
+    def __init__(self, street: str, city: str, country: str):
+        self._street = street
+        self._city = city
+        self._country = country
 
-    def __init__(self, username: str, password: str, date_of_birth: date):
-        if any(v is None for v in [username, password, date_of_birth]):
-            raise ValueError("Cannot create Escape Room. Missing required data")
+    def __str__(self):
+        return ", ".join([self._street, self._city, self._country])
+
+
+class User(ObjectPlus):
+    max_username_length: int = 40
+
+    def __init__(self, username: str, password: str, name: str, surname: str, date_of_birth: date, address: Address):
+        if len(username) > User.max_username_length:
+            raise ValueError(f"Username length cannot be longer than ${User.max_username_length} characters")
 
         self._username = username
         self._password = password
         self._date_of_birth = date_of_birth
         self._token = None
         self._token_updated_time = None
+        self._address = address
         super().__init__()
-
-    def authenticate(self, *args):
-        authenticated = False
-
-        if len(args) == 1 and args[0] is not None:
-            if args[0] is not None:
-                authenticated = self._authenticate_with_token(args[0])
-        elif len(args) == 2:
-            authenticated = (self._username == args[0]) and (self._password == args[1])
-
-        if not authenticated:
-            raise ValueError("Incorrect authentication data")
-
-        self._token = uuid4()
-        self._token_updated_time = datetime.now()
-        print("Uzytkownik zalogowany")
-        return self._token
-
-    def _authenticate_with_token(self, token):
-        return (datetime.now() < self._token_updated_time + timedelta(minutes=self.token_ttl)
-                and self._token == token)
 
     def get_age(self):
         today = date.today()
         return today.year - self._date_of_birth.year - ((today.month, today.day) <
                                                         (self._date_of_birth.month, self._date_of_birth.day))
 
+    def set_address(self, *args):
+        if len(args) == 1 and args[0].__class__ == Address:
+            self._address = args[0]
+            return
+        elif len(args) == 3:
+            self._address = Address(args[0], args[1], args[2])
+            return
+
+        raise ValueError("Incorrect address data")
+
     @staticmethod
-    def get_extent(className=None):
+    def get_extent(class_name=None):
         return ObjectPlus.get_extent(User)
 
     def __str__(self):

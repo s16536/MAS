@@ -13,9 +13,9 @@ def create_sample_data():
         os.remove(ObjectPlus.ALL_EXTENTS_PATH)
 
     # create sample users
-    User("jan_kowalski", "haslo123", date(1990, 4, 15))
-    User("anna_nowak", "mojeHaslo", date(2000, 3, 21))
-    User("sandra_rawicz", "qwerty", date(1992, 7, 8))
+    User("jan_kowalski", "haslo123", "Jan", "Kowalski", date(1990, 4, 15), Address("Dluga 18", "Warszawa", "Polska"))
+    User("anna_nowak", "mojeHaslo", "Jan", "Kowalski", date(2000, 3, 21), Address("Backstreet 13", "Budapest", "Hungary"))
+    User("sandra_rawicz", "qwerty", "Jan", "Kowalski", date(1992, 7, 8), Address("Złota 1", "Szczecin", "Polska"))
 
     # create sample escape rooms
     FixedPriceEscapeRoom("Piramida", date(2020, 1, 1), EscapeRoomCategory.MYSTERY, 1, 6, 120,
