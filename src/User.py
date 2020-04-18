@@ -1,7 +1,7 @@
 from datetime import *
 from uuid import uuid4
 
-from ObjectPlus import ObjectPlus
+from src.ObjectPlus import ObjectPlus
 
 
 class User(ObjectPlus):
@@ -46,8 +46,8 @@ class User(ObjectPlus):
                                                         (self._date_of_birth.month, self._date_of_birth.day))
 
     @staticmethod
-    def show_extent(class_name):
-        return super().show_extent(User)
+    def get_extent(className=None):
+        return ObjectPlus.get_extent(User)
 
     def __str__(self):
         return self._username
