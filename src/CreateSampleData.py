@@ -25,7 +25,11 @@ def create_sample_data():
                             ["Polski"], 40)
 
     # print created data
+    print("Stworzono następujące dane:")
     ObjectPlus.print_all_extents()
+
+    # save extents
+    ObjectPlus.save_extents()
 
 
 if __name__ == '__main__':

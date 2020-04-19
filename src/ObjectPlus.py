@@ -13,7 +13,6 @@ class ObjectPlus:
         ObjectPlus._all_extents[class_name] = extend
 
         extend.append(self)
-        self._save_extents()
 
     @staticmethod
     def get_extent(class_name=None):
@@ -31,7 +30,7 @@ class ObjectPlus:
             print(str(key), "\t", _get_values_as_string((ObjectPlus._all_extents[key])))
 
     @staticmethod
-    def _save_extents():
+    def save_extents():
         with open(ObjectPlus.ALL_EXTENTS_PATH, 'wb') as outfile:
             pickle.dump(ObjectPlus._all_extents, outfile)
 
