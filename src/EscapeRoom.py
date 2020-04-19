@@ -1,8 +1,18 @@
+from enum import auto, Enum
 from typing import List, Optional
 from datetime import date
 
-from src.escaperoom.EscapeRoomCategory import EscapeRoomCategory
 from src.ObjectPlus import ObjectPlus
+
+
+class EscapeRoomCategory(Enum):
+    HORROR = auto()
+    ADVENTURE = auto()
+    THRILLER = auto()
+    MYSTERY = auto()
+
+    def __str__(self):
+        return self.name
 
 
 class EscapeRoom(ObjectPlus):

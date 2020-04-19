@@ -2,8 +2,7 @@ from __future__ import print_function
 
 import os
 
-from src.escaperoom.EscapeRoom import *
-from src.escaperoom.EscapeRoomCategory import EscapeRoomCategory
+from src.EscapeRoom import *
 from src.User import *
 
 

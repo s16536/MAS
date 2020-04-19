@@ -1,7 +1,6 @@
 from __future__ import print_function
 
-from src.escaperoom.EscapeRoom import *
-from src.escaperoom.EscapeRoomCategory import EscapeRoomCategory
+from src.EscapeRoom import *
 from src.User import *
 
 
@@ -43,7 +42,8 @@ def main():
 
     for escape_room in [fixed_price_er, variable_price_er]:
         for players_no in [3, 5]:
-            print(f"Cena {escape_room} dla {players_no} osób: {escape_room.get_price(players_no)}")
+            print(f"Cena {escape_room} dla {players_no} osób: {escape_room.get_price(players_no)} "
+                  f"({'stała cena' if escape_room == fixed_price_er else 'cena zależna od liczby graczy'})")
 
 
 def print_banner(message):
