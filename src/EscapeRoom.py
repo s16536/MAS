@@ -33,6 +33,9 @@ class EscapeRoom(ObjectPlus):
     def get_price(self, players_no: int):
         raise NotImplementedError("Abstract method")
 
+    def set_closing_date(self, closing_date):
+        self._closing_date = closing_date
+
     def _validate_players_no(self, players_no):
         if not self._min_players_no <= players_no <= self._max_players_no:
             raise ValueError(f"Number of players must be between {self._min_players_no} and {self._max_players_no}")
