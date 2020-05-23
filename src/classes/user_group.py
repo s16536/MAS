@@ -17,3 +17,7 @@ class UserGroup(ObjectPlusPlus):
 
         for user in users:
             self.add_link("user", "group", user)
+
+    def __str__(self) -> str:
+        return self._group_name
+

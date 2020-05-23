@@ -35,7 +35,7 @@ class ObjectPlusPlus(ObjectPlus):
 
         if qualifier not in object_links.keys():
             object_links[qualifier] = target_object
-            self.add_link(reverse_role_name, role_name, self, self, counter - 1)
+            target_object.add_link(reverse_role_name, role_name, self, self, counter - 1)
 
     def add_part(self, role_name: str, reverse_role_name: str, part_object):
         """
