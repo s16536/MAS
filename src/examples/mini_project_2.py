@@ -1,5 +1,6 @@
 from datetime import date
 
+from classes.player import Player
 from classes.recommendation import Recommendation
 from classes.user_group import UserGroup
 from classes.visit import Visit
@@ -10,38 +11,38 @@ from object_plus.object_plus_plus import RoleLimitReachedError, DuplicateQualifi
 
 
 def main():
-    jan = User("jan_kowalski", "haslo123", "Jan", "Kowalski", date(1990, 4, 15),
+    jan = Player("jan_kowalski", "haslo123", "Jan", "Kowalski", date(1990, 4, 15),
                     Address("Dluga 18", "Warszawa", "Polska"))
-    anna = User("anna_nowak", "mojeHaslo", "Jan", "Kowalski", date(2000, 3, 21),
+    anna = Player("anna_nowak", "mojeHaslo", "Jan", "Kowalski", date(2000, 3, 21),
                      Address("Backstreet 13", "Budapest", "Hungary"))
 
 
     print_banner("Zwykla asocjacja - '* - *'")
-    print("Tworzenie grupy z jednym użytkownikiem...")
-    user_group = UserGroup("psy", [jan])
+    print(" Tworzenie grupy z jednym użytkownikiem...")
+    user_group = UserGroup("grupa 1", [jan])
 
     user_group.print_links()
     print()
     jan.print_links()
     print()
 
-    print("Dodanie drugiego użytkownika do grupy:")
-    user_group.add_link("user", "group", anna)
+    print(" Dodanie drugiego użytkownika do grupy:")
+    user_group.add_link("player", "group", anna)
     user_group.print_links()
     print()
     anna.print_links()
 
     ##############################################
     ##############################################
-    print_banner("Asocjacja kwalifikowana")
-    print("Tworzenie właściciela...")
+    print_banner(" Asocjacja kwalifikowana")
+    print(" Tworzenie właściciela...")
     owner = EscapeRoomOwner("owner", "mojeHaslo123", "Piotr", "Nowak", date(1990, 5, 21),
                             Address("Marszalkowska 13", "Warszawa", "Polska"))
-    print("Tworzenie Escape Roomu z tym właścicielem...")
+    print(" Tworzenie Escape Roomu z tym właścicielem...")
     escape_room = FixedPriceEscapeRoom("Piramida", date(2020, 1, 1), EscapeRoomCategory.MYSTERY, 1, 6, 120,
                                        ["Polski", "Angielski"], 160, owner)
 
-    print("\nTworzenie drugiego Escape Roomu o tej samej nazwie dla tego samego właściciela...")
+    print("\n Tworzenie drugiego Escape Roomu o tej samej nazwie dla tego samego właściciela...")
     try:
         VariablePriceEscapeRoom("Piramida", date(2020, 5, 1), EscapeRoomCategory.THRILLER, 1, 6, 60,
                                                 ["Polski"], 20, owner)
@@ -55,7 +56,7 @@ def main():
     ##############################################
     ##############################################
     print_banner("Asocjacja z atrybutem")
-    print("Tworzenie odwiedzin...")
+    print(" Tworzenie odwiedzin...")
     visit = Visit(jan, escape_room, date(2020, 5, 3), 5)
     visit.print_links()
     print()
@@ -66,7 +67,7 @@ def main():
     ##############################################
     ##############################################
     print_banner("Asocjacja kwalifikowana")
-    print("Tworzenie rekomendacji...")
+    print(" Tworzenie rekomendacji...")
     recommendation = Recommendation(escape_room, jan, 5)
     recommendation.print_links()
     print()
@@ -76,7 +77,7 @@ def main():
 
     print("\n Przypisanie tej rekomendacji do innego użytkownika...")
     try:
-        anna.add_part("recommendation", "user", recommendation)
+        anna.add_part("recommendation", "player", recommendation)
     except CompositionError as err:
         print("Exception!")
         print(err)
@@ -95,6 +96,7 @@ def main():
 
     print("\n Pozostałe rekomendacje:")
     Recommendation.print_extent()
+
 
 if __name__ == '__main__':
     main()

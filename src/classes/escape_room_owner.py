@@ -1,6 +1,7 @@
 from datetime import date
 
 from classes.user import User, Address
+from object_plus.object_plus import ObjectPlus
 
 
 class EscapeRoomOwner(User):
@@ -12,3 +13,7 @@ class EscapeRoomOwner(User):
         return {
             "ownedEscapeRoom": float("inf")
         }
+
+    @staticmethod
+    def get_extent(class_name=None):
+        return ObjectPlus.get_extent(EscapeRoomOwner)

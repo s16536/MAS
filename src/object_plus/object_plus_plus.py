@@ -21,8 +21,8 @@ class ObjectPlusPlus(ObjectPlus):
         :param role_name: str
         :param reverse_role_name: str
         :param target_object: ObjectPlusPlus
-        :param qualifier: Optional. If specified, qualified connection will be created
-        :param reverse_qualifier: Optional. If specified, qualified reverse connection will be created
+        :param qualifier: Optional. if specified, qualified connection will be created
+        :param reverse_qualifier: Optional. if specified, qualified reverse connection will be created
         :exception DuplicateQualifierError: if the role with given qualifier already exists in the class
         :exception RoleNotDefinedError: if role is not defined in the class
         :exception RoleLimitReachedError : if the upper limit of linked object for the role has been reached
@@ -118,7 +118,7 @@ class ObjectPlusPlus(ObjectPlus):
 
     def remove_link(self, role_name, target_object):
         """
-        Removes an existing link for the given object.
+        Removes the existing link for the given object.
 
         :param role_name: str
         :param target_object: ObjectPlusPlus
@@ -153,4 +153,4 @@ class DuplicateQualifierError(Exception):
 class CompositionError(Exception):
     def __init__(self, composite):
         super().__init__(
-            f"Cannot create a link - composite: '{composite}' already has its owner")
+            f"Cannot create the link - composite: '{composite}' already has its owner")
