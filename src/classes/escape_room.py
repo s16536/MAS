@@ -2,6 +2,7 @@ from enum import auto, Enum
 from typing import List, Optional
 from datetime import date
 
+from classes.escape_room_owner import EscapeRoomOwner
 from object_plus.object_plus import ObjectPlus
 from object_plus.object_plus_plus import ObjectPlusPlus
 
@@ -19,7 +20,7 @@ class EscapeRoomCategory(Enum):
 class EscapeRoom(ObjectPlusPlus):
 
     def __init__(self, name: str, opening_date: date, category: EscapeRoomCategory, min_players_no: int,
-                 max_players_no: int, time_limit: int, available_languages: List[str],
+                 max_players_no: int, time_limit: int, available_languages: List[str], owner: EscapeRoomOwner,
                  closing_date: Optional[date] = None):
         self._name = name
         self._opening_date = opening_date
@@ -30,6 +31,8 @@ class EscapeRoom(ObjectPlusPlus):
         self._available_languages = available_languages
         self._closing_date = closing_date
         super().__init__()
+
+        self.add_link("owner", "ownedEscapeRoom", owner, None, name)
 
     def get_price(self, players_no: int):
         raise NotImplementedError("Abstract method")
@@ -56,7 +59,8 @@ class EscapeRoom(ObjectPlusPlus):
     @classmethod
     def get_role_constraints(cls):
         return {
-            "visit": float("inf")
+            "visit": float("inf"),
+            "owner": 1
         }
 
     def __str__(self):
@@ -67,10 +71,10 @@ class FixedPriceEscapeRoom(EscapeRoom):
 
     def __init__(self, name: str, opening_date: date, category: EscapeRoomCategory, min_players_no: int,
                  max_players_no: int, time_limit: int, available_languages: List[str], price: float,
-                 closing_date: Optional[date] = None):
+                 owner: EscapeRoomOwner, closing_date: Optional[date] = None):
         self._price = price
         super().__init__(name, opening_date, category, min_players_no, max_players_no, time_limit,
-                         available_languages, closing_date)
+                         available_languages, owner, closing_date)
 
     def get_price(self, players_no: int):
         self._validate_players_no(players_no)
@@ -85,10 +89,10 @@ class VariablePriceEscapeRoom(EscapeRoom):
 
     def __init__(self, name: str, opening_date: date, category: EscapeRoomCategory, min_players_no: int,
                  max_players_no: int, time_limit: int, available_languages: List[str], price_per_player: float,
-                 closing_date: Optional[date] = None):
+                 owner: EscapeRoomOwner, closing_date: Optional[date] = None):
         self._price_per_player = price_per_player
         super().__init__(name, opening_date, category, min_players_no, max_players_no, time_limit,
-                         available_languages, closing_date)
+                         available_languages, owner, closing_date)
 
     def get_price(self, players_no: int):
         self._validate_players_no(players_no)
