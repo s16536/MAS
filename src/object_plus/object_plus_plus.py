@@ -1,4 +1,5 @@
 from object_plus.object_plus import ObjectPlus
+from utils import print_dict
 
 
 class ObjectPlusPlus(ObjectPlus):
@@ -73,6 +74,7 @@ class ObjectPlusPlus(ObjectPlus):
         """
 
         if role_name is None:
+            print_dict(self._links)
             return
 
         if role_name not in self._links.keys():

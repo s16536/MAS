@@ -1,6 +1,8 @@
 import pickle
 from pprint import pp
 
+from utils import get_values_as_string, print_dict
+
 
 class ObjectPlus:
     ALL_EXTENTS_PATH = "../../allExtents"
@@ -22,12 +24,11 @@ class ObjectPlus:
 
     @classmethod
     def print_extent(cls):
-        pp(_get_values_as_string(cls.get_extent()))
+        pp(get_values_as_string(cls.get_extent()))
 
     @staticmethod
     def print_all_extents():
-        for key, value in ObjectPlus._all_extents.items():
-            print(str(key), "\t", _get_values_as_string(value))
+        print_dict(ObjectPlus._all_extents)
 
     @staticmethod
     def save_extents():
@@ -38,7 +39,3 @@ class ObjectPlus:
     def load_extents():
         with open(ObjectPlus.ALL_EXTENTS_PATH, 'rb') as infile:
             ObjectPlus._all_extents = pickle.load(infile)
-
-
-def _get_values_as_string(collection):
-    return [str(v) for v in collection]
