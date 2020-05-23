@@ -128,16 +128,16 @@ class RoleNotDefinedError(Exception):
 
 class RoleLimitReachedError(Exception):
     def __init__(self, role_name, class_name, limit):
-        super().__init__(f"Limit {limit} links reached for the role {role_name} in the class {class_name}")
+        super().__init__(f"Limit {limit} links reached for the role '{role_name}' in the class {class_name}")
 
 
 class DuplicateQualifierError(Exception):
     def __init__(self, role_name, class_name, qualifier):
         super().__init__(
-            f"Link for the role {role_name} with qualifier = {qualifier} already exists in the class {class_name}")
+            f"Link for the role '{role_name}' with qualifier = '{qualifier}' already exists in the class {class_name}")
 
 
 class CompositionError(Exception):
     def __init__(self, composite):
         super().__init__(
-            f"Cannot create a link - composite: {composite} already has its owner")
+            f"Cannot create a link - composite: '{composite}' already has its owner")

@@ -6,7 +6,7 @@ from classes.visit import Visit
 from examples.mini_project_1 import print_banner, FixedPriceEscapeRoom, EscapeRoomCategory, EscapeRoomOwner, \
     VariablePriceEscapeRoom
 from classes.user import User, Address
-from object_plus.object_plus_plus import RoleLimitReachedError, DuplicateQualifierError
+from object_plus.object_plus_plus import RoleLimitReachedError, DuplicateQualifierError, CompositionError
 
 
 def main():
@@ -17,29 +17,39 @@ def main():
 
 
     print_banner("Zwykla asocjacja - '* - *'")
-    user_group = UserGroup("psy", [jan, anna])
+    print("Tworzenie grupy z jednym użytkownikiem...")
+    user_group = UserGroup("psy", [jan])
 
     user_group.print_links()
     print()
     jan.print_links()
     print()
+
+    print("Dodanie drugiego użytkownika do grupy:")
+    user_group.add_link("user", "group", anna)
+    user_group.print_links()
+    print()
     anna.print_links()
 
     print_banner("Asocjacja kwalifikowana")
-    owner = EscapeRoomOwner("owner_1", "mojeHaslo123", "Piotr", "Nowak", date(1990, 5, 21),
+    print("Tworzenie właściciela...")
+    owner = EscapeRoomOwner("owner", "mojeHaslo123", "Piotr", "Nowak", date(1990, 5, 21),
                             Address("Marszalkowska 13", "Warszawa", "Polska"))
+    print("Tworzenie Escape Roomu z tym właścicielem...")
     escape_room = FixedPriceEscapeRoom("Piramida", date(2020, 1, 1), EscapeRoomCategory.MYSTERY, 1, 6, 120,
                                        ["Polski", "Angielski"], 160, owner)
-
+    print("Tworzenie drugiego Escape Roomu o tej samej nazwie dla tego samego właściciela...")
     try:
         VariablePriceEscapeRoom("Piramida", date(2020, 5, 1), EscapeRoomCategory.THRILLER, 1, 6, 60,
                                                 ["Polski"], 20, owner)
     except DuplicateQualifierError as err:
+        print("Exception!")
         print(err)
 
     owner.print_links()
 
     print_banner("Asocjacja z atrybutem")
+    print("Tworzenie odwiedzin...")
     visit = Visit(jan, escape_room, date(2020, 5, 3), 5)
     visit.print_links()
     print()
@@ -48,12 +58,25 @@ def main():
     jan.print_links()
 
     print_banner("Asocjacja kwalifikowana")
+    print("Tworzenie rekomendacji...")
     recommendation = Recommendation(escape_room, jan, 5)
     recommendation.print_links()
     print()
     escape_room.print_links()
     print()
     jan.print_links()
+
+    print("Przypisanie tej rekomendacji do innego użytkownika...")
+    try:
+        anna.add_part("recommendation", "user", recommendation)
+    except CompositionError as err:
+        print("Exception!")
+        print(err)
+
+    print("All recommendations:")
+    Recommendation.print_extent()
+
+    print("Delete user...")
 
 
 if __name__ == '__main__':

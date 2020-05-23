@@ -18,8 +18,8 @@ class Recommendation(ObjectPlusPlus):
         check_rating_value(expected_rating)
         super().__init__()
         assert((escape_room is not None), "Recommendation cannot exist without the User!")
-        self.add_part("user", "recommendation", escape_room)
-        self.add_link("escapeRoom", "recommendation", user)
+        user.add_part("recommendation", "user", self)
+        self.add_link("escapeRoom", "recommendation", escape_room)
 
     @classmethod
     def get_role_constraints(cls):
@@ -30,3 +30,7 @@ class Recommendation(ObjectPlusPlus):
 
     def __str__(self) -> str:
         return f'Recommendation: {self.get_links("user")[0]} for {self.get_links("escapeRoom")[0]}'
+
+    @staticmethod
+    def get_extent(class_name=None):
+        return ObjectPlusPlus.get_extent(Recommendation)
