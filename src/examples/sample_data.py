@@ -2,9 +2,9 @@ from __future__ import print_function
 
 import os
 
-from src.EscapeRoom import FixedPriceEscapeRoom, EscapeRoomCategory, VariablePriceEscapeRoom
-from src.User import User, Address, date
-from src.ObjectPlus import ObjectPlus
+from classes.escape_room import FixedPriceEscapeRoom, EscapeRoomCategory, VariablePriceEscapeRoom
+from classes.user import User, Address, date
+from object_plus.object_plus import ObjectPlus
 
 def create_sample_data():
     # remove old file if exists

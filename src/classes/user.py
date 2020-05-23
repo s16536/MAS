@@ -1,7 +1,7 @@
 from datetime import *
 
-from src.ObjectPlusPlus import ObjectPlusPlus
-from src.ObjectPlus import ObjectPlus
+from object_plus.object_plus_plus import ObjectPlusPlus
+from object_plus.object_plus import ObjectPlus
 
 
 class Address(object):

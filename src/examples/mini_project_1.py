@@ -1,7 +1,7 @@
 from __future__ import print_function
 
-from src.EscapeRoom import *
-from src.User import *
+from classes.escape_room import *
+from classes.user import *
 
 
 def main():

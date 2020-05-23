@@ -2,8 +2,8 @@ import pickle
 from pprint import pp
 
 
-class ObjectPlus():
-    ALL_EXTENTS_PATH = "../allExtents"
+class ObjectPlus:
+    ALL_EXTENTS_PATH = "../../allExtents"
     _all_extents = dict()
 
     def __init__(self):

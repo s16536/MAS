@@ -1,4 +1,4 @@
-from src.ObjectPlus import ObjectPlus
+from object_plus.object_plus import ObjectPlus
 
 
 class ObjectPlusPlus(ObjectPlus):
@@ -65,18 +65,23 @@ class ObjectPlusPlus(ObjectPlus):
 
         return tuple(self._links[role_name])
 
-    def print_links(self, role_name: str):
+    def print_links(self, role_name: str = None):
         """
         Prints links for the given role.
-        :param role_name: str
+        :param role_name: str [optional] (if empty, method prints links for all existing roles)
         :exception ValueError: if no links exist for the given role
         """
+
+        if role_name is None:
+            return
+
+        if role_name not in self._links.keys():
+            raise ValueError("No links for the role: " + role_name)
 
         object_links = self._links[role_name].values()
         print(self.__class__.__name__ + " links, role '" + role_name + "':")
         for obj in object_links:
             print(obj)
-
 
 # 	/**
 # 	 * Gets an object for the given qualifier (a qualified association).

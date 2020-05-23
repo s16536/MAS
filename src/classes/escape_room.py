@@ -2,7 +2,7 @@ from enum import auto, Enum
 from typing import List, Optional
 from datetime import date
 
-from src.ObjectPlus import ObjectPlus
+from object_plus.object_plus import ObjectPlus
 
 
 class EscapeRoomCategory(Enum):
