@@ -48,5 +48,9 @@ class User(ObjectPlusPlus):
     def get_extent(class_name=None):
         return ObjectPlus.get_extent(User)
 
+    @classmethod
+    def get_role_constraints(cls):
+        return {"group": float('inf')}
+
     def __str__(self):
         return self._username

@@ -21,7 +21,9 @@ class ObjectPlusPlus(ObjectPlus):
         :param role_name: str
         :param reverse_role_name: str
         :param target_object: ObjectPlusPlus
-        :param qualifier: Optional. If specified, qualified connection will be created.
+        :param qualifier: Optional. If specified, qualified connection will be created
+        :exception ValueError: if the specified role is not expected for the object
+        or the upper limit of linked object has been reached
         """
 
         if counter < 1:
@@ -30,10 +32,14 @@ class ObjectPlusPlus(ObjectPlus):
         if qualifier is None:
             qualifier = target_object
 
+        if counter == 2:
+            self.check_limits(role_name)
+            target_object.check_limits(reverse_role_name)
+
         object_links = self._links.get(role_name, dict())
         self._links[role_name] = object_links
 
-        if qualifier not in object_links.keys():
+        if object_links.get(qualifier) is None:
             object_links[qualifier] = target_object
             target_object.add_link(reverse_role_name, role_name, self, self, counter - 1)
 
@@ -58,13 +64,16 @@ class ObjectPlusPlus(ObjectPlus):
         Gets a tuple of connected objects for the given role name.
 
         :param role_name: str
-        :exception ValueError: if no links exist for the given role
+        :exception ValueError: if role is not defined in the class
         """
-
-        if role_name not in self._links.keys():
+        if self.get_role_constraints().get(role_name) is None:
             raise ValueError("No links for the role: " + role_name)
 
-        return tuple(self._links[role_name])
+        links = self._links.get(role_name)
+        if links is None:
+            return ()
+
+        return tuple(links)
 
     def print_links(self, role_name: str = None):
         """
@@ -77,13 +86,31 @@ class ObjectPlusPlus(ObjectPlus):
             print_dict(self._links)
             return
 
-        if role_name not in self._links.keys():
+        object_links = self._links.get(role_name)
+        if object_links is None:
             raise ValueError("No links for the role: " + role_name)
 
-        object_links = self._links[role_name].values()
         print(self.__class__.__name__ + " links, role '" + role_name + "':")
-        for obj in object_links:
+        for obj in object_links.values():
             print(obj)
+
+    def check_limits(self, role_name):
+        role_constraints = self.get_role_constraints()
+
+        limit = role_constraints.get(role_name)
+
+        if limit is None:
+            raise ValueError(f"Role {role_name} not defined in the class {self.__class__.__name__}")
+
+        limit = role_constraints[role_name]
+        existing_links = len(self.get_links(role_name))
+
+        if existing_links == limit:
+            raise ValueError(f"Limit {limit} links reached for the role {role_name} in the class {self.__class__.__name__}")
+
+    @classmethod
+    def get_role_constraints(cls):
+        return dict()
 
 # 	/**
 # 	 * Gets an object for the given qualifier (a qualified association).
