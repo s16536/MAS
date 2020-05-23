@@ -3,6 +3,7 @@ from typing import List, Optional
 from datetime import date
 
 from object_plus.object_plus import ObjectPlus
+from object_plus.object_plus_plus import ObjectPlusPlus
 
 
 class EscapeRoomCategory(Enum):
@@ -15,7 +16,7 @@ class EscapeRoomCategory(Enum):
         return self.name
 
 
-class EscapeRoom(ObjectPlus):
+class EscapeRoom(ObjectPlusPlus):
 
     def __init__(self, name: str, opening_date: date, category: EscapeRoomCategory, min_players_no: int,
                  max_players_no: int, time_limit: int, available_languages: List[str],
@@ -51,6 +52,12 @@ class EscapeRoom(ObjectPlus):
             all_extents += ObjectPlus.get_extent(subclass)
 
         return all_extents
+
+    @classmethod
+    def get_role_constraints(cls):
+        return {
+            "visit": float("inf")
+        }
 
     def __str__(self):
         return f"Escape Room : {self._name}"

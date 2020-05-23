@@ -1,4 +1,4 @@
-from typing import List
+from typing import Set
 
 from object_plus.object_plus_plus import ObjectPlusPlus
 from classes.user import User
@@ -16,7 +16,7 @@ class UserGroup(ObjectPlusPlus):
 
     MAX_GROUP_SIZE = 8
 
-    def __init__(self, group_name: str, users: List[User]):
+    def __init__(self, group_name: str, users: Set[User]):
         self._group_name = group_name
 
         if len(users) < 1:
