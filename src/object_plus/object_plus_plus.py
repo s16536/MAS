@@ -116,6 +116,21 @@ class ObjectPlusPlus(ObjectPlus):
         if existing_links == limit:
             raise RoleLimitReachedError(role_name, self.__class__.__name__, limit)
 
+    def remove_link(self, role_name, target_object):
+        """
+        Removes an existing link for the given object.
+
+        :param role_name: str
+        :param target_object: ObjectPlusPlus
+        """
+        links = self._links.get(role_name)
+        if links is None:
+            return
+
+        link = links.get(target_object)
+        if link is not None:
+            del link
+
     @classmethod
     def get_role_constraints(cls):
         return dict()

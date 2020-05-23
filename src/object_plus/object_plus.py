@@ -39,3 +39,8 @@ class ObjectPlus:
     def load_extents():
         with open(ObjectPlus.ALL_EXTENTS_PATH, 'rb') as infile:
             ObjectPlus._all_extents = pickle.load(infile)
+
+    @staticmethod
+    def remove_from_extents(value):
+        extent = ObjectPlus._all_extents[value.__class__]
+        extent.remove(value)

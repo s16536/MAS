@@ -1,6 +1,6 @@
 from datetime import *
 
-from object_plus.object_plus_plus import ObjectPlusPlus
+from object_plus.object_plus_plus import ObjectPlusPlus, RoleNotDefinedError
 from object_plus.object_plus import ObjectPlus
 
 
@@ -55,6 +55,23 @@ class User(ObjectPlusPlus):
             "visit": float("inf"),
             "recommendation": float("inf")
         }
+
+    def delete(self):
+        print("delete user " + self._username)
+        ObjectPlus.remove_from_extents(self)
+
+        try:
+            for group in self.get_links("group"):
+                group.remove_link("user", self)
+
+            for visit in self.get_links("visit"):
+                visit.remove_link("user", self)
+
+            for recommendation in self.get_links("recommendation"):
+                recommendation.delete()
+
+        except RoleNotDefinedError:
+            pass
 
     def __str__(self):
         return self._username

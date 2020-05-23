@@ -24,8 +24,8 @@ class Visit(ObjectPlusPlus):
         self._rating = rating
         super().__init__()
 
-        self.add_link("user", "visit", escape_room)
-        self.add_link("escapeRoom", "visit", user)
+        self.add_link("user", "visit", user)
+        self.add_link("escapeRoom", "visit", escape_room)
 
     @classmethod
     def get_role_constraints(cls):

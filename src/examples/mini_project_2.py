@@ -66,17 +66,22 @@ def main():
     print()
     jan.print_links()
 
-    print("Przypisanie tej rekomendacji do innego użytkownika...")
+    print("\n Przypisanie tej rekomendacji do innego użytkownika...")
     try:
         anna.add_part("recommendation", "user", recommendation)
     except CompositionError as err:
         print("Exception!")
         print(err)
 
-    print("All recommendations:")
+    print("\n All recommendations:")
     Recommendation.print_extent()
 
-    print("Delete user...")
+    print("\n Delete user...")
+    jan.delete()
+
+    Recommendation.print_extent()
+
+    visit.print_links()
 
 
 if __name__ == '__main__':
