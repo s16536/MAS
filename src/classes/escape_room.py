@@ -60,7 +60,8 @@ class EscapeRoom(ObjectPlusPlus):
     def get_role_constraints(cls):
         return {
             "visit": float("inf"),
-            "owner": 1
+            "owner": 1,
+            "recommendation": float("inf")
         }
 
     def __str__(self):

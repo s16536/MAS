@@ -14,7 +14,7 @@ class ObjectPlusPlus(ObjectPlus):
         super().__init__()
 
     def add_link(self, role_name: str, reverse_role_name: str, target_object, qualifier=None,
-                 reverse_qualifier=None, counter: int = 2):
+                 reverse_qualifier=None, counter: int = 2, ):
         """
         Creates a new link to the given target object (optionally as qualified connection).
 
@@ -52,16 +52,16 @@ class ObjectPlusPlus(ObjectPlus):
 
     def add_part(self, role_name: str, reverse_role_name: str, part_object):
         """
-        Adds an information about a connection (using a "semi" composition)
+        Adds an information about a connection
 
         :param role_name: str
         :param reverse_role_name: str
         :param part_object: ObjectPlusPlus
-        :exception ValueError: if the part_object is already connected to other object
+        :exception CompositionError: if the part_object is already connected to other object
         """
 
         if part_object in self._all_parts:
-            raise ValueError("The part is already connected to a whole!")
+            raise CompositionError(part_object)
 
         self.add_link(role_name, reverse_role_name, part_object)
         self._all_parts.append(part_object)
@@ -135,3 +135,9 @@ class DuplicateQualifierError(Exception):
     def __init__(self, role_name, class_name, qualifier):
         super().__init__(
             f"Link for the role {role_name} with qualifier = {qualifier} already exists in the class {class_name}")
+
+
+class CompositionError(Exception):
+    def __init__(self, composite):
+        super().__init__(
+            f"Cannot create a link - composite: {composite} already has its owner")

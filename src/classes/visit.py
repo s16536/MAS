@@ -11,10 +11,6 @@ class Visit(ObjectPlusPlus):
 
     Attributes:
     ----------
-    user : User
-
-    escape_room : EscapeRoom
-
     visit_date : date
         the date of the visit
     rating : int
@@ -22,9 +18,10 @@ class Visit(ObjectPlusPlus):
     """
 
     def __init__(self, user: User, escape_room: EscapeRoom, visit_date: date, rating: int):
+        check_rating_value(rating)
+
         self._visit_date = visit_date
         self._rating = rating
-
         super().__init__()
 
         self.add_link("user", "visit", escape_room)
@@ -38,4 +35,9 @@ class Visit(ObjectPlusPlus):
         }
 
     def __str__(self) -> str:
-        return f'{self.get_links("user")[0]} - {self.get_links("escapeRoom")[0]}, {self._visit_date}'
+        return f'Visit: {self.get_links("user")[0]} - {self.get_links("escapeRoom")[0]}, {self._visit_date}'
+
+
+def check_rating_value(rating):
+    if rating < 1 or rating > 10:
+        raise ValueError("Rating must be between 1 and 10")

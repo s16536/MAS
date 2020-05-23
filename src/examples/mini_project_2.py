@@ -1,5 +1,6 @@
 from datetime import date
 
+from classes.recommendation import Recommendation
 from classes.user_group import UserGroup
 from classes.visit import Visit
 from examples.mini_project_1 import print_banner, FixedPriceEscapeRoom, EscapeRoomCategory, EscapeRoomOwner, \
@@ -38,13 +39,21 @@ def main():
 
     owner.print_links()
 
-    # print_banner("Asocjacja z atrybutem")
-    # visit = Visit(jan, escape_room, date(2020, 5, 3), 5)
-    # visit.print_links()
-    # print()
-    # escape_room.print_links()
-    # print()
-    # jan.print_links()
+    print_banner("Asocjacja z atrybutem")
+    visit = Visit(jan, escape_room, date(2020, 5, 3), 5)
+    visit.print_links()
+    print()
+    escape_room.print_links()
+    print()
+    jan.print_links()
+
+    print_banner("Asocjacja kwalifikowana")
+    recommendation = Recommendation(escape_room, jan, 5)
+    recommendation.print_links()
+    print()
+    escape_room.print_links()
+    print()
+    jan.print_links()
 
 
 if __name__ == '__main__':

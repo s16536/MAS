@@ -52,7 +52,8 @@ class User(ObjectPlusPlus):
     def get_role_constraints(cls):
         return {
             "group": float('inf'),
-            "visit": float("inf")
+            "visit": float("inf"),
+            "recommendation": float("inf")
         }
 
     def __str__(self):
