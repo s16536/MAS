@@ -2,7 +2,7 @@ import pickle
 from pprint import pp
 
 
-class ObjectPlus:
+class ObjectPlus():
     ALL_EXTENTS_PATH = "../allExtents"
     _all_extents = dict()
 
@@ -27,7 +27,7 @@ class ObjectPlus:
     @staticmethod
     def print_all_extents():
         for key, value in ObjectPlus._all_extents.items():
-            print(str(key), "\t", _get_values_as_string((ObjectPlus._all_extents[key])))
+            print(str(key), "\t", _get_values_as_string(value))
 
     @staticmethod
     def save_extents():

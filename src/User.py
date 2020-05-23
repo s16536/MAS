@@ -1,5 +1,6 @@
 from datetime import *
 
+from src.ObjectPlusPlus import ObjectPlusPlus
 from src.ObjectPlus import ObjectPlus
 
 
@@ -13,7 +14,7 @@ class Address(object):
         return ", ".join([self._street, self._city, self._country])
 
 
-class User(ObjectPlus):
+class User(ObjectPlusPlus):
     max_username_length: int = 40
 
     def __init__(self, username: str, password: str, name: str, surname: str, date_of_birth: date, address: Address):

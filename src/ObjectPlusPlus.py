@@ -1,4 +1,4 @@
-from ObjectPlus import ObjectPlus
+from src.ObjectPlus import ObjectPlus
 
 
 class ObjectPlusPlus(ObjectPlus):
@@ -9,8 +9,8 @@ class ObjectPlusPlus(ObjectPlus):
     _all_parts = list()
 
     def __init__(self):
-        super().__init__()
         self._links = dict()
+        super().__init__()
 
     def add_link(self, role_name: str, reverse_role_name: str, target_object, qualifier=None,
                  counter: int = 2):
