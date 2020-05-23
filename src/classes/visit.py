@@ -35,7 +35,12 @@ class Visit(ObjectPlusPlus):
         }
 
     def __str__(self) -> str:
-        return f'Visit: {self.get_links("user")[0]} - {self.get_links("escapeRoom")[0]}, {self._visit_date}'
+        user = self.get_links("user")
+        if len(user) > 0:
+            user = user[0]
+        else:
+            user = "Unknown user"
+        return f'Visit: {user} - {self.get_links("escapeRoom")[0]}, {self._visit_date}'
 
 
 def check_rating_value(rating):

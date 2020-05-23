@@ -36,6 +36,6 @@ class Recommendation(ObjectPlusPlus):
         return ObjectPlusPlus.get_extent(Recommendation)
 
     def delete(self):
-        print("delete recomendation")
+        ObjectPlusPlus.remove_from_extents(self)
         for group in self.get_links("escapeRoom"):
             group.remove_link("recommendation", self)

@@ -127,9 +127,7 @@ class ObjectPlusPlus(ObjectPlus):
         if links is None:
             return
 
-        link = links.get(target_object)
-        if link is not None:
-            del link
+        links.pop(target_object, None)
 
     @classmethod
     def get_role_constraints(cls):

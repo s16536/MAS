@@ -57,21 +57,22 @@ class User(ObjectPlusPlus):
         }
 
     def delete(self):
-        print("delete user " + self._username)
         ObjectPlus.remove_from_extents(self)
 
+        for link in ["group", "visit"]:
+            self._delete_link(link)
         try:
-            for group in self.get_links("group"):
-                group.remove_link("user", self)
-
-            for visit in self.get_links("visit"):
-                visit.remove_link("user", self)
-
             for recommendation in self.get_links("recommendation"):
                 recommendation.delete()
-
         except RoleNotDefinedError:
             pass
 
     def __str__(self):
         return self._username
+
+    def _delete_link(self, link_name):
+        try:
+            for link in self.get_links(link_name):
+                link.remove_link("user", self)
+        except RoleNotDefinedError:
+            pass

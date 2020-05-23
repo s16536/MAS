@@ -31,6 +31,8 @@ def main():
     print()
     anna.print_links()
 
+    ##############################################
+    ##############################################
     print_banner("Asocjacja kwalifikowana")
     print("Tworzenie właściciela...")
     owner = EscapeRoomOwner("owner", "mojeHaslo123", "Piotr", "Nowak", date(1990, 5, 21),
@@ -38,7 +40,8 @@ def main():
     print("Tworzenie Escape Roomu z tym właścicielem...")
     escape_room = FixedPriceEscapeRoom("Piramida", date(2020, 1, 1), EscapeRoomCategory.MYSTERY, 1, 6, 120,
                                        ["Polski", "Angielski"], 160, owner)
-    print("Tworzenie drugiego Escape Roomu o tej samej nazwie dla tego samego właściciela...")
+
+    print("\nTworzenie drugiego Escape Roomu o tej samej nazwie dla tego samego właściciela...")
     try:
         VariablePriceEscapeRoom("Piramida", date(2020, 5, 1), EscapeRoomCategory.THRILLER, 1, 6, 60,
                                                 ["Polski"], 20, owner)
@@ -46,8 +49,11 @@ def main():
         print("Exception!")
         print(err)
 
+    print()
     owner.print_links()
 
+    ##############################################
+    ##############################################
     print_banner("Asocjacja z atrybutem")
     print("Tworzenie odwiedzin...")
     visit = Visit(jan, escape_room, date(2020, 5, 3), 5)
@@ -57,6 +63,8 @@ def main():
     print()
     jan.print_links()
 
+    ##############################################
+    ##############################################
     print_banner("Asocjacja kwalifikowana")
     print("Tworzenie rekomendacji...")
     recommendation = Recommendation(escape_room, jan, 5)
@@ -73,16 +81,20 @@ def main():
         print("Exception!")
         print(err)
 
-    print("\n All recommendations:")
+    print("\n Tworzenie dodatkowych rekomendacji...")
+    second_escape_room = VariablePriceEscapeRoom("Podwodna Przygoda", date(2020, 5, 1), EscapeRoomCategory.THRILLER, 1, 6, 60,
+                                                ["Polski"], 20, owner)
+    Recommendation(second_escape_room, jan, 8)
+    Recommendation(escape_room, anna, 3)
+
+    print("\n Wszystkie rekomendacje:")
     Recommendation.print_extent()
 
-    print("\n Delete user...")
+    print("\n Usuwanie użytkownika Jan...")
     jan.delete()
 
+    print("\n Pozostałe rekomendacje:")
     Recommendation.print_extent()
-
-    visit.print_links()
-
 
 if __name__ == '__main__':
     main()
