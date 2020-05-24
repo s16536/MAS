@@ -8,6 +8,7 @@ from examples.mini_project_1 import print_banner, FixedPriceEscapeRoom, EscapeRo
     VariablePriceEscapeRoom
 from classes.user import User, Address
 from object_plus.object_plus_plus import RoleLimitReachedError, DuplicateQualifierError, CompositionError
+from object_plus.roles import Role
 
 
 def main():
@@ -24,7 +25,7 @@ def main():
 
     print_banner("Zwykła asocjacja - '* - *'")
     print(" Tworzenie grupy z jednym użytkownikiem...")
-    user_group = UserGroup("grupa 1", [jan])
+    user_group = UserGroup("grupa 1", {jan})
 
     user_group.print_links()
     print()
@@ -32,7 +33,7 @@ def main():
     print()
 
     print(" Dodanie drugiego użytkownika do grupy:")
-    user_group.add_link("player", "group", anna)
+    user_group.add_link(Role.Player, Role.Group, anna)
     user_group.print_links()
     print()
     anna.print_links()
@@ -48,6 +49,7 @@ def main():
     print(" Tworzenie Escape Roomu z tym właścicielem...")
     escape_room = FixedPriceEscapeRoom("Piramida", date(2020, 1, 1), EscapeRoomCategory.MYSTERY, 1, 6, 120,
                                        ["Polski", "Angielski"], 160, owner)
+    escape_room.print_links()
 
     print("\n Tworzenie drugiego Escape Roomu o tej samej nazwie dla tego samego właściciela...")
     try:
@@ -67,7 +69,7 @@ def main():
     owner.print_links()
 
     print("\n Odszukanie Escape Roomu 'Piramida' po nazwie (kwalifikatorze)...")
-    pyramid = owner.get_linked_object("ownedEscapeRoom", "Piramida")
+    pyramid = owner.get_linked_object(Role.OwnedEscapeRoom, "Piramida")
     print(pyramid)
 
     ##############################################
@@ -99,7 +101,7 @@ def main():
 
     print("\n Przypisanie tej rekomendacji do innego użytkownika...")
     try:
-        anna.add_part("recommendation", "player", recommendation)
+        anna.add_part(Role.Recommendation, Role.Player, recommendation)
     except CompositionError as err:
         print("Exception!")
         print(err)

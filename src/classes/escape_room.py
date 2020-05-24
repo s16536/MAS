@@ -5,6 +5,7 @@ from datetime import date
 from classes.escape_room_owner import EscapeRoomOwner
 from object_plus.object_plus import ObjectPlus
 from object_plus.object_plus_plus import ObjectPlusPlus
+from object_plus.roles import Role
 
 
 class EscapeRoomCategory(Enum):
@@ -32,7 +33,7 @@ class EscapeRoom(ObjectPlusPlus):
         self._closing_date = closing_date
         super().__init__()
 
-        self.add_link("owner", "ownedEscapeRoom", owner, None, name)
+        self.add_link(Role.Owner, Role.OwnedEscapeRoom, owner, None, name)
 
     def get_price(self, players_no: int):
         raise NotImplementedError("Abstract method")
@@ -59,9 +60,9 @@ class EscapeRoom(ObjectPlusPlus):
     @classmethod
     def get_role_constraints(cls):
         return {
-            "visit": float("inf"),
-            "owner": 1,
-            "recommendation": float("inf")
+            Role.Visit: float("inf"),
+            Role.Owner: 1,
+            Role.Recommendation: float("inf")
         }
 
     def __str__(self):
