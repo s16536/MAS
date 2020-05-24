@@ -15,9 +15,11 @@ class Recommendation(ObjectPlusPlus):
     """
 
     def __init__(self, escape_room: EscapeRoom, user: Player, expected_rating : int):
+        if user is None:
+            raise ValueError("Recommendation cannot exist without the User!")
         check_rating_value(expected_rating)
+
         super().__init__()
-        assert((escape_room is not None), "Recommendation cannot exist without the User!")
         user.add_part("recommendation", "player", self)
         self.add_link("escapeRoom", "recommendation", escape_room)
 

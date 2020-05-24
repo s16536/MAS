@@ -102,6 +102,25 @@ class ObjectPlusPlus(ObjectPlus):
         for obj in object_links.values():
             print(obj)
 
+    def get_linked_object(self, role_name: str, qualifier):
+        """
+        Gets an object for the given qualifier (a qualified association).
+        :param role_name: str
+        :param qualifier: Object
+        :return:
+        """
+
+        role_links = self._links.get(role_name)
+
+        if role_links is None:
+            raise RoleNotDefinedError(role_name, self.__class__.__name__)
+
+        result = role_links.get(qualifier)
+        if result is None:
+            raise InvalidQualifierError(role_name, self.__class__.__name__, qualifier)
+
+        return result
+
     def check_limits(self, role_name):
         role_constraints = self.get_role_constraints()
 
@@ -148,6 +167,12 @@ class DuplicateQualifierError(Exception):
     def __init__(self, role_name, class_name, qualifier):
         super().__init__(
             f"Link for the role '{role_name}' with qualifier = '{qualifier}' already exists in the class {class_name}")
+
+
+class InvalidQualifierError(Exception):
+    def __init__(self, role_name, class_name, qualifier):
+        super().__init__(
+            f"Link for the role '{role_name}' with qualifier = '{qualifier}' does not exist in the class {class_name}")
 
 
 class CompositionError(Exception):

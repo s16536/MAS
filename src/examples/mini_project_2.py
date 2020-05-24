@@ -11,13 +11,18 @@ from object_plus.object_plus_plus import RoleLimitReachedError, DuplicateQualifi
 
 
 def main():
+
+    ##############################################
+    #        ZWYKłA ASOCJACJA * - *
+    ##############################################
+
     jan = Player("jan_kowalski", "haslo123", "Jan", "Kowalski", date(1990, 4, 15),
                     Address("Dluga 18", "Warszawa", "Polska"))
     anna = Player("anna_nowak", "mojeHaslo", "Jan", "Kowalski", date(2000, 3, 21),
                      Address("Backstreet 13", "Budapest", "Hungary"))
 
 
-    print_banner("Zwykla asocjacja - '* - *'")
+    print_banner("Zwykła asocjacja - '* - *'")
     print(" Tworzenie grupy z jednym użytkownikiem...")
     user_group = UserGroup("grupa 1", [jan])
 
@@ -33,7 +38,9 @@ def main():
     anna.print_links()
 
     ##############################################
+    #        ASOCJACJA KWALIFIKOWANA
     ##############################################
+
     print_banner(" Asocjacja kwalifikowana")
     print(" Tworzenie właściciela...")
     owner = EscapeRoomOwner("owner", "mojeHaslo123", "Piotr", "Nowak", date(1990, 5, 21),
@@ -53,9 +60,22 @@ def main():
     print()
     owner.print_links()
 
+    print("\n Tworzenie Escape Roomu o innej nazwie...")
+    VariablePriceEscapeRoom("Piramida 2", date(2020, 5, 1), EscapeRoomCategory.THRILLER, 1, 6, 60,
+                            ["Polski"], 20, owner)
+    print()
+    owner.print_links()
+
+    print("\n Odszukanie Escape Roomu 'Piramida' po nazwie (kwalifikatorze)...")
+    pyramid = owner.get_linked_object("ownedEscapeRoom", "Piramida")
+    print(pyramid)
+
     ##############################################
+    #        ASOCJACJA Z ATRYBUTEM
     ##############################################
+
     print_banner("Asocjacja z atrybutem")
+    print("Gracz --odwiedza-- Escape Room - powstała nowa encja Odwiedziny")
     print(" Tworzenie odwiedzin...")
     visit = Visit(jan, escape_room, date(2020, 5, 3), 5)
     visit.print_links()
@@ -65,8 +85,10 @@ def main():
     jan.print_links()
 
     ##############################################
+    #        KOMPOZYCJA
     ##############################################
-    print_banner("Asocjacja kwalifikowana")
+
+    print_banner("Kompozycja")
     print(" Tworzenie rekomendacji...")
     recommendation = Recommendation(escape_room, jan, 5)
     recommendation.print_links()
@@ -79,6 +101,13 @@ def main():
     try:
         anna.add_part("recommendation", "player", recommendation)
     except CompositionError as err:
+        print("Exception!")
+        print(err)
+
+    print("\n Tworzenie rekomendacji bez użytkownika...")
+    try:
+        Recommendation(escape_room, None, 1)
+    except ValueError as err:
         print("Exception!")
         print(err)
 
