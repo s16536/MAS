@@ -144,6 +144,26 @@ class ObjectPlusPlus(ObjectPlus):
 
         links.pop(target_object, None)
 
+    def delete(self):
+        """
+        Removes all existing links to the object and removes the object from extents.
+        If the object is the owner in any composition, all composite elements are deleted.
+        """
+        ObjectPlus.remove_from_extents(self)
+        for role, role_constraint in self.get_role_constraints().items():
+            self._delete_link(role, role_constraint)
+
+    def _delete_link(self, role: Role, role_constraint: RoleConstraint):
+        is_composition = role_constraint.is_composition_owner
+        try:
+            for link in self.get_links(role):
+                if is_composition:
+                    link.delete()
+                else:
+                    link.remove_link(role_constraint.reverse_role_name, self)
+        except RoleNotDefinedError:
+            pass
+
     @classmethod
     def get_role_constraints(cls) -> Dict[Role, RoleConstraint]:
         return dict()

@@ -21,23 +21,6 @@ class Player(User):
         return {
             Role.group: RoleConstraint(float('inf'), Role.player),
             Role.visit: RoleConstraint(float('inf'), Role.player),
-            Role.recommendation: RoleConstraint(float('inf'), Role.player)
+            Role.recommendation: RoleConstraint(float('inf'), Role.player, True)
         }
 
-    def delete(self):
-        ObjectPlus.remove_from_extents(self)
-
-        for link in [Role.group, Role.visit]:
-            self._delete_link(link)
-        try:
-            for recommendation in self.get_links(Role.recommendation):
-                recommendation.delete()
-        except RoleNotDefinedError:
-            pass
-
-    def _delete_link(self, link_name):
-        try:
-            for link in self.get_links(link_name):
-                link.remove_link(Role.player, self)
-        except RoleNotDefinedError:
-            pass

@@ -39,8 +39,3 @@ class Recommendation(ObjectPlusPlus):
     @staticmethod
     def get_extent(class_name=None):
         return ObjectPlusPlus.get_extent(Recommendation)
-
-    def delete(self):
-        ObjectPlusPlus.remove_from_extents(self)
-        for group in self.get_links(Role.escape_room):
-            group.remove_link(Role.recommendation, self)

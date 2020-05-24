@@ -15,9 +15,10 @@ class Role(Enum):
 
 
 class RoleConstraint():
-    def __init__(self, limit, reverse_role: Role):
+    def __init__(self, limit, reverse_role: Role, is_composition_owner: bool = False):
         self.limit = limit
         self.reverse_role_name = reverse_role
+        self.is_composition_owner = is_composition_owner
 
 
 def first_or_unknown(obj, role: Role):
@@ -27,4 +28,3 @@ def first_or_unknown(obj, role: Role):
         return links[0]
     else:
         return f"Unknown {role}"
-
