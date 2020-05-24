@@ -4,7 +4,7 @@ from classes.escape_room import EscapeRoom
 from classes.player import Player
 from object_plus.object_plus import ObjectPlus
 from object_plus.object_plus_plus import ObjectPlusPlus
-from object_plus.roles import Role
+from object_plus.roles import Role, RoleConstraint
 from utils import first_or_unknown
 
 
@@ -27,14 +27,14 @@ class Visit(ObjectPlusPlus):
         self._rating = rating
         super().__init__()
 
-        self.add_link(Role.Player, Role.Visit, player)
-        self.add_link(Role.EscapeRoom, Role.Visit, escape_room)
+        self.add_link(Role.player, player)
+        self.add_link(Role.escape_room, escape_room)
 
     @classmethod
     def get_role_constraints(cls):
         return {
-            Role.Player: 1,
-            Role.EscapeRoom: 1
+            Role.player: RoleConstraint(1, Role.visit),
+            Role.escape_room: RoleConstraint(1, Role.visit)
         }
 
     @staticmethod
@@ -42,8 +42,8 @@ class Visit(ObjectPlusPlus):
         return ObjectPlus.get_extent(Visit)
 
     def __str__(self) -> str:
-        user = first_or_unknown(self, Role.Player, "player")
-        escape_room = first_or_unknown(self, Role.EscapeRoom, "escape room")
+        user = first_or_unknown(self, Role.player, "player")
+        escape_room = first_or_unknown(self, Role.escape_room, "escape room")
         return f'Visit: {user} - {escape_room}'
 
 

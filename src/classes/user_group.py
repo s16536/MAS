@@ -3,7 +3,7 @@ from typing import Set
 from classes.player import Player
 from object_plus.object_plus import ObjectPlus
 from object_plus.object_plus_plus import ObjectPlusPlus
-from object_plus.roles import Role
+from object_plus.roles import Role, RoleConstraint
 
 
 class UserGroup(ObjectPlusPlus):
@@ -27,14 +27,14 @@ class UserGroup(ObjectPlusPlus):
         super().__init__()
 
         for user in players:
-            self.add_link(Role.Player, Role.Group, user)
+            self.add_link(Role.player, user)
 
     def __str__(self) -> str:
         return self._group_name
 
     @classmethod
     def get_role_constraints(cls):
-        return {Role.Player: cls.MAX_GROUP_SIZE}
+        return {Role.player: RoleConstraint(cls.MAX_GROUP_SIZE, Role.group)}
 
     @staticmethod
     def get_extent(class_name=None):

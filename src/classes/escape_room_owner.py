@@ -2,7 +2,7 @@ from datetime import date
 
 from classes.user import User, Address
 from object_plus.object_plus import ObjectPlus
-from object_plus.roles import Role
+from object_plus.roles import Role, RoleConstraint
 
 
 class EscapeRoomOwner(User):
@@ -12,7 +12,7 @@ class EscapeRoomOwner(User):
     @classmethod
     def get_role_constraints(cls):
         return {
-            Role.OwnedEscapeRoom: float("inf")
+            Role.owned_escape_room: RoleConstraint(float("inf"), Role.owner)
         }
 
     @staticmethod

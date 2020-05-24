@@ -1,5 +1,7 @@
+from typing import Dict
+
 from object_plus.object_plus import ObjectPlus
-from object_plus.roles import Role
+from object_plus.roles import Role, RoleConstraint
 from utils import print_dict
 
 
@@ -14,13 +16,12 @@ class ObjectPlusPlus(ObjectPlus):
         self._links = dict()
         super().__init__()
 
-    def add_link(self, role: Role, reverse_role: Role, target_object, qualifier=None,
-                 reverse_qualifier=None, counter: int = 2, ):
+    def add_link(self, role: Role, target_object, qualifier=None,
+                 reverse_qualifier=None, add_reverse_role: bool=True):
         """
-        Creates a new link to the given target object (optionally as qualified connection).
+        Creates a new link (with reverse link) to the given target object (optionally as qualified connection).
 
         :param role: Role
-        :param reverse_role: Role
         :param target_object: ObjectPlusPlus
         :param qualifier: Optional. if specified, qualified connection will be created
         :param reverse_qualifier: Optional. if specified, qualified reverse connection will be created
@@ -29,18 +30,16 @@ class ObjectPlusPlus(ObjectPlus):
         :exception RoleLimitReachedError : if the upper limit of linked object for the role has been reached
         """
 
-        if counter < 1:
-            return
-
         if qualifier is None:
             qualifier = target_object
 
         if reverse_qualifier is None:
             reverse_qualifier = self
 
-        if counter == 2:
-            self.check_limits(role)
-            target_object.check_limits(reverse_role)
+        role_constraints = self.get_role_constraints().get(role)
+        if role_constraints is None:
+            raise RoleNotDefinedError(role, self.__class__.__name__)
+        self.check_limits(role, role_constraints)
 
         object_links = self._links.get(role, dict())
         self._links[role] = object_links
@@ -49,7 +48,10 @@ class ObjectPlusPlus(ObjectPlus):
             raise DuplicateQualifierError(role, self.__class__.__name__, qualifier)
 
         object_links[qualifier] = target_object
-        target_object.add_link(reverse_role, role, self, reverse_qualifier, None, counter - 1)
+
+        if add_reverse_role:
+            reverse_role = role_constraints.reverse_role_name
+            target_object.add_link(reverse_role, self, reverse_qualifier, None, False)
 
     def add_part(self, role: Role, reverse_role: Role, part_object):
         """
@@ -64,7 +66,7 @@ class ObjectPlusPlus(ObjectPlus):
         if part_object in self._all_parts:
             raise CompositionError(part_object)
 
-        self.add_link(role, reverse_role, part_object)
+        self.add_link(role, part_object)
         self._all_parts.append(part_object)
 
     def get_links(self, role: Role):
@@ -122,15 +124,8 @@ class ObjectPlusPlus(ObjectPlus):
 
         return result
 
-    def check_limits(self, role):
-        role_constraints = self.get_role_constraints()
-
-        limit = role_constraints.get(role)
-
-        if limit is None:
-            raise RoleNotDefinedError(role, self.__class__.__name__)
-
-        limit = role_constraints[role]
+    def check_limits(self, role: Role, role_constraints: RoleConstraint):
+        limit = role_constraints.limit
         existing_links = len(self.get_links(role))
 
         if existing_links == limit:
@@ -150,8 +145,12 @@ class ObjectPlusPlus(ObjectPlus):
         links.pop(target_object, None)
 
     @classmethod
-    def get_role_constraints(cls):
+    def get_role_constraints(cls) -> Dict[Role, RoleConstraint]:
         return dict()
+
+    @classmethod
+    def get_constraints_for_role(cls, role: Role) -> RoleConstraint:
+        return cls.get_role_constraints().get(role)
 
 
 class RoleNotDefinedError(Exception):

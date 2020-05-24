@@ -19,7 +19,10 @@ def main():
 
     jan = Player("jan_kowalski", "haslo123", "Jan", "Kowalski", date(1990, 4, 15),
                     Address("Dluga 18", "Warszawa", "Polska"))
-    anna = Player("anna_nowak", "mojeHaslo", "Jan", "Kowalski", date(2000, 3, 21),
+    anna = Player("anna_nowak", "mojeHaslo", "Anna", "Nowak", date(2000, 3, 21),
+                     Address("Backstreet 13", "Budapest", "Hungary"))
+
+    piotr = Player("piotr_nowak", "mojeHaslo123", "Piotr", "Nowak", date(2000, 4, 1),
                      Address("Backstreet 13", "Budapest", "Hungary"))
 
 
@@ -30,13 +33,16 @@ def main():
     user_group.print_links()
     print()
     jan.print_links()
-    print()
 
-    print(" Dodanie drugiego użytkownika do grupy:")
-    user_group.add_link(Role.Player, Role.Group, anna)
-    user_group.print_links()
-    print()
+    print("\n Dodanie drugiego użytkownika do grupy...")
+    user_group.add_link(Role.player, anna)
     anna.print_links()
+    user_group.print_links()
+
+    print("\n Dodanie trzeciego użytkownika poprzez link w drugą stronę...")
+    piotr.add_link(Role.group, user_group)
+    piotr.print_links()
+    user_group.print_links()
 
     ##############################################
     #        ASOCJACJA KWALIFIKOWANA
@@ -69,7 +75,7 @@ def main():
     owner.print_links()
 
     print("\n Odszukanie Escape Roomu 'Piramida' po nazwie (kwalifikatorze)...")
-    pyramid = owner.get_linked_object(Role.OwnedEscapeRoom, "Piramida")
+    pyramid = owner.get_linked_object(Role.owned_escape_room, "Piramida")
     print(pyramid)
 
     ##############################################
@@ -101,7 +107,7 @@ def main():
 
     print("\n Przypisanie tej rekomendacji do innego użytkownika...")
     try:
-        anna.add_part(Role.Recommendation, Role.Player, recommendation)
+        anna.add_part(Role.recommendation, Role.player, recommendation)
     except CompositionError as err:
         print("Exception!")
         print(err)

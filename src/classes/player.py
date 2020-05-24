@@ -3,7 +3,7 @@ from datetime import date
 from classes.user import User, Address
 from object_plus.object_plus import ObjectPlus
 from object_plus.object_plus_plus import RoleNotDefinedError
-from object_plus.roles import Role
+from object_plus.roles import Role, RoleConstraint
 
 
 class Player(User):
@@ -19,18 +19,18 @@ class Player(User):
     @classmethod
     def get_role_constraints(cls):
         return {
-            Role.Group: float('inf'),
-            Role.Visit: float("inf"),
-            Role.Recommendation: float("inf")
+            Role.group: RoleConstraint(float('inf'), Role.player),
+            Role.visit: RoleConstraint(float('inf'), Role.player),
+            Role.recommendation: RoleConstraint(float('inf'), Role.player)
         }
 
     def delete(self):
         ObjectPlus.remove_from_extents(self)
 
-        for link in [Role.Group, Role.Visit]:
+        for link in [Role.group, Role.visit]:
             self._delete_link(link)
         try:
-            for recommendation in self.get_links(Role.Recommendation):
+            for recommendation in self.get_links(Role.recommendation):
                 recommendation.delete()
         except RoleNotDefinedError:
             pass
@@ -38,6 +38,6 @@ class Player(User):
     def _delete_link(self, link_name):
         try:
             for link in self.get_links(link_name):
-                link.remove_link(Role.Player, self)
+                link.remove_link(Role.player, self)
         except RoleNotDefinedError:
             pass

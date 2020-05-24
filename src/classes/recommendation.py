@@ -2,7 +2,7 @@ from classes.escape_room import EscapeRoom
 from classes.player import Player
 from classes.visit import check_rating_value
 from object_plus.object_plus_plus import ObjectPlusPlus
-from object_plus.roles import Role
+from object_plus.roles import Role, RoleConstraint
 from utils import first_or_unknown
 
 
@@ -22,19 +22,19 @@ class Recommendation(ObjectPlusPlus):
         check_rating_value(expected_rating)
 
         super().__init__()
-        user.add_part(Role.Recommendation, Role.Player, self)
-        self.add_link(Role.EscapeRoom, Role.Recommendation, escape_room)
+        user.add_part(Role.recommendation, Role.player, self)
+        self.add_link(Role.escape_room, escape_room)
 
     @classmethod
     def get_role_constraints(cls):
         return {
-            Role.Player: 1,
-            Role.EscapeRoom: 1
+            Role.player: RoleConstraint(1, Role.recommendation),
+            Role.escape_room: RoleConstraint(1, Role.recommendation)
         }
 
     def __str__(self) -> str:
-        player = first_or_unknown(self, Role.Player, "player")
-        escape_room = first_or_unknown(self, Role.EscapeRoom, "escape room")
+        player = first_or_unknown(self, Role.player, "player")
+        escape_room = first_or_unknown(self, Role.escape_room, "escape room")
         return f'Recommendation: {player} for {escape_room}'
 
     @staticmethod
@@ -43,5 +43,5 @@ class Recommendation(ObjectPlusPlus):
 
     def delete(self):
         ObjectPlusPlus.remove_from_extents(self)
-        for group in self.get_links(Role.EscapeRoom):
-            group.remove_link(Role.Recommendation, self)
+        for group in self.get_links(Role.escape_room):
+            group.remove_link(Role.recommendation, self)

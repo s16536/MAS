@@ -7,7 +7,7 @@ def get_values_as_string(collection):
 
 def print_dict(dictionary):
     for key, value in dictionary.items():
-        print(str(key), "\t", get_values_as_string(value))
+        print(str(key), "\t->\t", get_values_as_string(value))
 
 
 def first_or_unknown(obj, role : Role, name: str):
