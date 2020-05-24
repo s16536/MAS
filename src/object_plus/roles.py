@@ -18,3 +18,13 @@ class RoleConstraint():
     def __init__(self, limit, reverse_role: Role):
         self.limit = limit
         self.reverse_role_name = reverse_role
+
+
+def first_or_unknown(obj, role: Role):
+    links = obj.get_links(role)
+
+    if links is not None and len(links) > 0:
+        return links[0]
+    else:
+        return f"Unknown {role}"
+

@@ -4,8 +4,7 @@ from classes.escape_room import EscapeRoom
 from classes.player import Player
 from object_plus.object_plus import ObjectPlus
 from object_plus.object_plus_plus import ObjectPlusPlus
-from object_plus.roles import Role, RoleConstraint
-from utils import first_or_unknown
+from object_plus.roles import Role, RoleConstraint, first_or_unknown
 
 
 class Visit(ObjectPlusPlus):
@@ -42,8 +41,8 @@ class Visit(ObjectPlusPlus):
         return ObjectPlus.get_extent(Visit)
 
     def __str__(self) -> str:
-        user = first_or_unknown(self, Role.player, "player")
-        escape_room = first_or_unknown(self, Role.escape_room, "escape room")
+        user = first_or_unknown(self, Role.player)
+        escape_room = first_or_unknown(self, Role.escape_room)
         return f'Visit: {user} - {escape_room}'
 
 

@@ -2,8 +2,7 @@ from classes.escape_room import EscapeRoom
 from classes.player import Player
 from classes.visit import check_rating_value
 from object_plus.object_plus_plus import ObjectPlusPlus
-from object_plus.roles import Role, RoleConstraint
-from utils import first_or_unknown
+from object_plus.roles import Role, RoleConstraint, first_or_unknown
 
 
 class Recommendation(ObjectPlusPlus):
@@ -33,8 +32,8 @@ class Recommendation(ObjectPlusPlus):
         }
 
     def __str__(self) -> str:
-        player = first_or_unknown(self, Role.player, "player")
-        escape_room = first_or_unknown(self, Role.escape_room, "escape room")
+        player = first_or_unknown(self, Role.player)
+        escape_room = first_or_unknown(self, Role.escape_room)
         return f'Recommendation: {player} for {escape_room}'
 
     @staticmethod
