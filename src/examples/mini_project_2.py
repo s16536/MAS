@@ -2,7 +2,7 @@ from datetime import date
 
 from classes.player import Player
 from classes.recommendation import Recommendation
-from classes.user_group import UserGroup
+from classes.player_group import PlayerGroup
 from classes.visit import Visit
 from examples.mini_project_1 import print_banner, FixedPriceEscapeRoom, EscapeRoomCategory, EscapeRoomOwner, \
     VariablePriceEscapeRoom
@@ -28,7 +28,7 @@ def main():
 
     print_banner("Zwykła asocjacja - '* - *'")
     print(" Tworzenie grupy z jednym użytkownikiem...")
-    user_group = UserGroup("grupa 1", {jan})
+    user_group = PlayerGroup("grupa 1", {jan})
 
     user_group.print_links()
     print()

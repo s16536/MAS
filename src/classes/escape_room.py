@@ -23,6 +23,9 @@ class EscapeRoom(ObjectPlusPlus):
     def __init__(self, name: str, opening_date: date, category: EscapeRoomCategory, min_players_no: int,
                  max_players_no: int, time_limit: int, available_languages: List[str], owner: EscapeRoomOwner,
                  closing_date: Optional[date] = None):
+        if type(self) is EscapeRoom:
+            raise AbstractClassException(self.__class__.__name__)
+
         self._name = name
         self._opening_date = opening_date
         self._category = category
@@ -103,3 +106,8 @@ class VariablePriceEscapeRoom(EscapeRoom):
     @staticmethod
     def get_extent(class_name=None):
         return ObjectPlus.get_extent(VariablePriceEscapeRoom)
+
+
+class AbstractClassException(Exception):
+    def __init__(self, class_name: str):
+        super().__init__(f"{class_name} is an abstract class and cannot be instantiated directly'")

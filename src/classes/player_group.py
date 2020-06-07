@@ -6,7 +6,7 @@ from object_plus.object_plus_plus import ObjectPlusPlus
 from object_plus.roles import Role, RoleConstraint
 
 
-class UserGroup(ObjectPlusPlus):
+class PlayerGroup(ObjectPlusPlus):
     """
     Class represents groups of players that can visit Escape Rooms together.
 
@@ -34,8 +34,11 @@ class UserGroup(ObjectPlusPlus):
 
     @classmethod
     def get_role_constraints(cls):
-        return {Role.player: RoleConstraint(cls.MAX_GROUP_SIZE, Role.group)}
+        return {
+            Role.player: RoleConstraint(cls.MAX_GROUP_SIZE, Role.group),
+            Role.recommendation: RoleConstraint(cls.MAX_GROUP_SIZE, Role.group)
+        }
 
     @staticmethod
     def get_extent(class_name=None):
-        return ObjectPlus.get_extent(UserGroup)
+        return ObjectPlus.get_extent(PlayerGroup)

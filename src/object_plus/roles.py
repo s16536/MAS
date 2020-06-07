@@ -9,6 +9,8 @@ class Role(Enum):
     owned_escape_room = auto()
     visit = auto()
     group = auto()
+    person = auto()
+    user = auto()
 
     def __str__(self):
         return self.name
