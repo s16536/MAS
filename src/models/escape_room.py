@@ -40,4 +40,4 @@ class VariablePriceEscapeRoom(EscapeRoom):
     def __init__(self, *args, **kwargs):
         if kwargs.get('max_price') is None:
             raise MissingRequiredParameterError('max_price', self.__class__.__name__)
-        super().__init__(args, kwargs)
+        super().__init__(*args, **kwargs)

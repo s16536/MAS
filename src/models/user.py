@@ -48,7 +48,7 @@ class EscapeRoomOwner(User):
 
     def __init__(self, username: str, password: str, address: Address):
         if address is None:
-            raise ValueError("")
+            raise MissingRequiredParameterError('Address', self.__class__.__name__)
         self.username = username
         self.password = password
         self.address_city = address.city
