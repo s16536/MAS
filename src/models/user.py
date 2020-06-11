@@ -45,6 +45,8 @@ class EscapeRoomOwner(User):
     address_house_no = db.Column(db.Integer)
     address_apartment_no = db.Column(db.Integer)
 
+    owned_escape_rooms = relationship("EscapeRoom", back_populates="owner")
+
     def __init__(self, address, *args, **kwargs):
         if address is None:
             raise MissingRequiredParameterError('Address', self.__class__.__name__)

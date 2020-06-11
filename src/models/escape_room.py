@@ -1,5 +1,6 @@
 import enum
 import sqlalchemy as db
+from sqlalchemy.orm import relationship
 
 from db.base import Base
 from exceptions import MissingRequiredParameterError
@@ -26,6 +27,9 @@ class EscapeRoom(Base):
     max_players_no = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
     closing_date = db.Column(db.Date)
+
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    owner = relationship("EscapeRoomOwner", back_populates="owned_escape_rooms")
 
 
 class FixedPriceEscapeRoom(EscapeRoom):
