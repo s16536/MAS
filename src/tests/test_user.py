@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from db.base import Base
 from exceptions import MissingRequiredParameterError
 from models.user import Address, EscapeRoomOwnerPerson, Person, Player
+from models.escape_room import EscapeRoom
 from tests.test_data import create_person_owner, assert_owner_details
 
 

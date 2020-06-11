@@ -4,6 +4,7 @@ import sqlalchemy as db
 from sqlalchemy.orm import relationship
 from db.base import Base
 from exceptions import MissingRequiredParameterError
+from models.group import player_group_table
 
 
 class Address(object):
@@ -36,6 +37,7 @@ class Player(User):
 
     person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
     person = relationship("Person", foreign_keys=[person_id])
+    groups = relationship("Group", secondary=player_group_table, back_populates="players")
 
 
 class EscapeRoomOwner(User):
