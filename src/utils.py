@@ -1,3 +1,6 @@
+from typing import List
+
+
 def get_values_as_string(collection):
     return [str(v) for v in collection]
 
