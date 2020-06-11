@@ -25,8 +25,7 @@ class User(Base):
     user_type = db.Column(db.String(40), nullable=False)
     __mapper_args__ = {'polymorphic_on': user_type}
     __table_args__ = (db.CheckConstraint("user_type <> 'player' or person_id is not null ", ),
-                      db.CheckConstraint("user_type <> 'er_owner' or er_owner_person_id is not null"),
-                      db.CheckConstraint("user_type <> 'er_owner' or er_owner_person_id is not null"))
+                      db.CheckConstraint("user_type <> 'er_owner_person' or er_owner_person_id is not null"))
 
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(50), nullable=False)
@@ -46,16 +45,15 @@ class EscapeRoomOwner(User):
     address_house_no = db.Column(db.Integer)
     address_apartment_no = db.Column(db.Integer)
 
-    def __init__(self, username: str, password: str, address: Address):
+    def __init__(self, address, *args, **kwargs):
         if address is None:
             raise MissingRequiredParameterError('Address', self.__class__.__name__)
-        self.username = username
-        self.password = password
         self.address_city = address.city
         self.address_postcode = address.postcode
         self.address_street = address.street
         self.address_house_no = address.house_no
         self.address_apartment_no = address.apartment_no
+        super().__init__(*args, **kwargs)
 
 
 class EscapeRoomOwnerPerson(EscapeRoomOwner):
