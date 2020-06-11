@@ -24,8 +24,8 @@ class User(Base):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_type = db.Column(db.String(40), nullable=False)
     __mapper_args__ = {'polymorphic_on': user_type}
-    __table_args__ = (db.CheckConstraint("user_type <> 'player' or person_id is not null ", ),
-                      db.CheckConstraint("user_type <> 'er_owner_person' or er_owner_person_id is not null"))
+    __table_args__ = (db.CheckConstraint("user_type <> 'player' or person_id is not null ", name="null_person_player"),
+                      db.CheckConstraint("user_type <> 'er_owner_person' or er_owner_person_id is not null", name="null_person_owner"))
 
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(50), nullable=False)

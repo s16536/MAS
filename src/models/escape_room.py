@@ -1,5 +1,6 @@
 import enum
 import sqlalchemy as db
+from sqlalchemy import UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from db.base import Base
@@ -19,6 +20,7 @@ class EscapeRoom(Base):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     escape_room_type = db.Column(db.String(40), nullable=False)
     __mapper_args__ = {'polymorphic_on': escape_room_type}
+    __table_args__ = (UniqueConstraint('name', 'owner_id', name='unique_escape_room_name_for_owner'),)
 
     name = db.Column(db.String(100), nullable=False)
     opening_date = db.Column(db.Date, nullable=False)
