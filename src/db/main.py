@@ -1,11 +1,19 @@
 from datetime import date
 
-from db.base import Session, Base, engine
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from db.base import Base
 from models.user import *
 from models.escape_room import *
 
 
 def main():
+    engine = create_engine('sqlite:///mydb3.db'
+                           # , echo=True
+                           )
+    Session = sessionmaker(bind=engine)
+
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
     # escape = EscapeRoom("Podwodna przygoda", date(2020, 5, 1), EscapeRoomCategory.HORROR, 1, 5)
