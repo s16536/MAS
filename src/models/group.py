@@ -22,7 +22,7 @@ class Group(Base):
     players = relationship("Player", secondary=player_group_table, back_populates="groups")
 
     def __init__(self, name: str, players: List[Player]):
-        if type(players) is not List or len(players) < 1:
+        if type(players) is not list or len(players) < 1:
             raise MissingRequiredParameterError("Players", self.__class__.name)
 
         if name is None:

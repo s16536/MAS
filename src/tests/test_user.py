@@ -1,31 +1,7 @@
-import unittest as test
-
-from sqlalchemy import create_engine
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import sessionmaker
 
-from db.base import Base
 from exceptions import MissingRequiredParameterError
-from models.user import Address, EscapeRoomOwnerPerson, Person, Player
-from models.escape_room import EscapeRoom
-from tests.test_data import create_person_owner, assert_owner_details
-
-
-class TestWithDB(test.TestCase):
-    engine = create_engine('sqlite:///test.db')
-    Session = sessionmaker(bind=engine)
-
-    def __init__(self, methodName: str = ...) -> None:
-        super().__init__(methodName)
-        self.session = None
-
-    def setUp(self):
-        Base.metadata.drop_all(self.engine)
-        Base.metadata.create_all(self.engine)
-        self.session = self.Session()
-
-    def tearDown(self) -> None:
-        self.session.close()
+from tests.db_test import *
 
 
 class TestAddress(test.TestCase):
@@ -56,7 +32,7 @@ class Test(TestWithDB):
         self.session.commit()
 
         saved_owner = self.session.query(EscapeRoomOwnerPerson).one()
-        assert_owner_details(self, saved_owner)
+        assert_test_owner(self, saved_owner)
 
 
 class TestPlayer(TestWithDB):

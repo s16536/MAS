@@ -1,4 +1,4 @@
-from models.user import EscapeRoomOwnerPerson, Address, Person
+from models.user import EscapeRoomOwnerPerson, Address, Person, Player
 
 
 def create_person_owner() -> EscapeRoomOwnerPerson:
@@ -7,7 +7,7 @@ def create_person_owner() -> EscapeRoomOwnerPerson:
     return EscapeRoomOwnerPerson(username="us", password="ps", address=address, er_owner_person=person)
 
 
-def assert_owner_details(test, owner):
+def assert_test_owner(test, owner):
     test.assertEqual(owner.username, "us")
     test.assertEqual(owner.password, "ps")
     test.assertEqual(owner.address_street, "street")
@@ -17,3 +17,14 @@ def assert_owner_details(test, owner):
     test.assertIsNone(owner.address_apartment_no)
     test.assertEqual(owner.er_owner_person.first_name, "first")
     test.assertEqual(owner.er_owner_person.last_name, "last")
+
+
+def assert_person(test, expected_person: Person, person: Person):
+    test.assertEqual(expected_person.first_name, person.first_name)
+    test.assertEqual(expected_person.last_name, person.last_name)
+
+
+def assert_player(test, expected_player: Player, player: Player):
+    assert_person(test, expected_player.person, player.person)
+    test.assertEqual(expected_player.username, player.username)
+    test.assertEqual(expected_player.password, player.password)

@@ -1,13 +1,9 @@
-import unittest as test
 from datetime import date
 
 from sqlalchemy.exc import IntegrityError
 
 from exceptions import MissingRequiredParameterError
-from models.escape_room import VariablePriceEscapeRoom, FixedPriceEscapeRoom, EscapeRoomCategory, EscapeRoom
-from models.user import EscapeRoomOwner
-from tests.test_data import assert_owner_details, create_person_owner
-from tests.test_user import TestWithDB
+from tests.db_test import *
 
 
 class TestVariablePriceEscapeRoom(test.TestCase):
@@ -31,7 +27,7 @@ class TestEscapeRoom(TestWithDB):
         self.session.commit()
 
         saved_escape_room = self.session.query(FixedPriceEscapeRoom).one()
-        assert_owner_details(self, saved_escape_room.owner)
+        assert_test_owner(self, saved_escape_room.owner)
         self.assertEqual(saved_escape_room.name, "Piramida")
         self.assertEqual(saved_escape_room.opening_date, date(2020, 5, 1))
         self.assertEqual(saved_escape_room.category, EscapeRoomCategory.ADVENTURE)
@@ -40,7 +36,7 @@ class TestEscapeRoom(TestWithDB):
         self.assertEqual(saved_escape_room.price, 80)
 
         saved_owner = self.session.query(EscapeRoomOwner).one()
-        assert_owner_details(self, saved_owner)
+        assert_test_owner(self, saved_owner)
         self.assertIn(escape_room, saved_owner.owned_escape_rooms)
 
     def test_escape_room_without_owner_raises_exception(self):
