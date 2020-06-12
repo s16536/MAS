@@ -1,7 +1,5 @@
 from datetime import date
 
-from sqlalchemy.exc import IntegrityError
-
 from exceptions import MissingRequiredParameterError
 from tests.db_test import *
 
@@ -14,6 +12,20 @@ class TestVariablePriceEscapeRoom(test.TestCase):
         escape_room = VariablePriceEscapeRoom(max_price=10)
 
         self.assertIsNotNone(escape_room)
+
+
+class TestFixedPriceEscapeRoom(test.TestCase):
+    def test_is_open_with_closing_date(self):
+        escape_room = FixedPriceEscapeRoom(opening_date=date(2020, 1, 1), closing_date=date(2020, 1, 2))
+        self.assertFalse(escape_room.is_open(date(2019, 12, 31)))
+        self.assertTrue(escape_room.is_open(date(2020, 1, 1)))
+        self.assertFalse(escape_room.is_open(date(2020, 1, 2)))
+
+    def test_is_open_without_closing_date(self):
+        escape_room = FixedPriceEscapeRoom(opening_date=date(2020, 1, 1))
+        self.assertFalse(escape_room.is_open(date(2019, 12, 31)))
+        self.assertTrue(escape_room.is_open(date(2020, 1, 1)))
+        self.assertTrue(escape_room.is_open(date(2020, 1, 2)))
 
 
 class TestEscapeRoom(TestWithDB):

@@ -1,4 +1,6 @@
 import enum
+from datetime import date
+
 import sqlalchemy as db
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.orm import relationship
@@ -35,6 +37,13 @@ class EscapeRoom(Base):
     visits = relationship("Visit", back_populates="escape_room")
     recommendations = relationship("Recommendation", back_populates="escape_room")
 
+    def is_open(self, when: date) -> bool:
+        return (self.opening_date <= when < self.closing_date) if (self.closing_date is not None) \
+            else self.opening_date <= when
+
+    def open(self):
+        self.closing_date = False
+
 
 class FixedPriceEscapeRoom(EscapeRoom):
     __mapper_args__ = {'polymorphic_identity': 'fixed_price'}
@@ -44,7 +53,7 @@ class VariablePriceEscapeRoom(EscapeRoom):
     __mapper_args__ = {'polymorphic_identity': 'variable_price'}
 
     max_price = db.Column(db.Integer)
-    
+
     def __init__(self, *args, **kwargs):
         if kwargs.get('max_price') is None:
             raise MissingRequiredParameterError('max_price', self.__class__.__name__)
