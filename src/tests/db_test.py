@@ -8,6 +8,7 @@ from models.user import Address, Person, Player, EscapeRoomOwner, EscapeRoomOwne
 from models.escape_room import EscapeRoom, EscapeRoomCategory, VariablePriceEscapeRoom, FixedPriceEscapeRoom
 from tests.test_data import create_person_owner, assert_test_owner
 from models.group import Group
+from models.visit import Visit
 
 
 class TestWithDB(test.TestCase):

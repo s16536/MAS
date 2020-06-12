@@ -21,6 +21,7 @@ class Group(Base):
     max_players_no = 8
 
     players = relationship("Player", secondary=player_group_table, back_populates="groups")
+    visits = relationship("Visit", back_populates="group")
 
     def __init__(self, name: str, players: List[Player]):
         if type(players) is not list or len(players) < 1:
