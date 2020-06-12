@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from db.base import db, Base
-from tests.test_data import create_person_owner
+from tests.test_data import create_person_owner, create_group
 
 import models
 
@@ -28,8 +28,11 @@ def main():
                                                max_players_no=5,
                                                price=80, owner=owner)
 
+    group = create_group()
+
     session.add(escape_room)
     session.add(escape_room1)
+    session.add(group)
 
     try:
         session.commit()

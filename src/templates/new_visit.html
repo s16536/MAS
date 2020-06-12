@@ -1,0 +1,34 @@
+{% extends "index.html" %}
+
+{% block title %}
+Nowa wizyta
+{% endblock %}
+
+{% block body %}
+<div class="row">
+  <div class="col" style="margin-bottom: 30px;">
+    Wybierz Escape Room:
+  </div>
+</div>
+
+<div class="row">
+<div class="col">
+  
+<div class="list-group">
+  {% for room in rooms %}
+  <a href="/register_visit/{{ room.id }}" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ room.name }}</h5>
+      <small class="text-muted">{{ room.category }}</small>
+    </div>
+    <p class="mb-1">{{ room.company }}</p>
+  </a>
+  {% endfor %}
+</div>
+
+</div>
+</div>
+
+{% include 'btn_return.html' %}
+
+{% endblock %}
