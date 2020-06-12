@@ -5,7 +5,16 @@ from tests.test_data import assert_player
 
 class TestGroup(TestWithDB):
     def test_group_cannot_exist_without_user(self):
-        self.assertRaises(MissingRequiredParameterError, Group, name="name", players=[])
+        self.assertRaisesRegex(MissingRequiredParameterError, ".*Players.*", Group, name="name", players=[])
+
+    def test_no_of_players_cannot_exceed_limit(self):
+        players = []
+        for i in range(0, Group.max_players_no + 2):
+            person = Person(first_name="Jan", last_name="Kowalski")
+            player = Player(person=person, username=f"jkowal{i}", password="pass")
+            players.append(player)
+
+        self.assertRaisesRegex(ValueError, ".*exceeds the limit.*", Group, name="group", players=players )
 
     def test_create_group(self):
         person1 = Person(first_name="Jan", last_name="Kowalski")

@@ -18,6 +18,7 @@ class Group(Base):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     name = db.Column(db.String(150), nullable=False)
+    max_players_no = 8
 
     players = relationship("Player", secondary=player_group_table, back_populates="groups")
 
@@ -28,6 +29,8 @@ class Group(Base):
         if name is None:
             raise MissingRequiredParameterError("Name", self.__class__.name)
 
+        if len(players) > self.max_players_no:
+            raise ValueError(f"Number of players exceeds the limit of {self.max_players_no}!")
+
         self.players = players
         self.name = name
-
