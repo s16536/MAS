@@ -1,6 +1,7 @@
 import unittest as test
 
 from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
 
 from db.base import Base
@@ -9,6 +10,7 @@ from models.escape_room import EscapeRoom, EscapeRoomCategory, VariablePriceEsca
 from tests.test_data import create_person_owner, assert_test_owner
 from models.group import Group
 from models.visit import Visit
+from models.recommendation import Recommendation
 
 
 class TestWithDB(test.TestCase):
@@ -26,3 +28,12 @@ class TestWithDB(test.TestCase):
 
     def tearDown(self) -> None:
         self.session.close()
+
+    def mandatory_field_test(self, cls, field):
+        original_value = getattr(cls, field)
+        setattr(cls, field, None)
+        print(f'test field {field}')
+        self.session.add(cls)
+        self.assertRaisesRegex(IntegrityError, f".*NOT NULL .*{field}", self.session.commit)
+        self.session.rollback()
+        setattr(cls, field, original_value)

@@ -32,7 +32,8 @@ class EscapeRoom(Base):
 
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     owner = relationship("EscapeRoomOwner", back_populates="owned_escape_rooms")
-    visits = relationship("Visit")
+    visits = relationship("Visit", back_populates="escape_room")
+    recommendations = relationship("Recommendation", back_populates="escape_room")
 
 
 class FixedPriceEscapeRoom(EscapeRoom):

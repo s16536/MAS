@@ -38,6 +38,7 @@ class Player(User):
     person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
     person = relationship("Person", foreign_keys=[person_id])
     groups = relationship("Group", secondary=player_group_table, back_populates="players")
+    recommendations = relationship("Recommendation", cascade="all,delete", back_populates="player")
 
 
 class EscapeRoomOwner(User):

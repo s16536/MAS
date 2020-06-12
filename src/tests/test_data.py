@@ -11,6 +11,11 @@ def create_person_owner() -> EscapeRoomOwnerPerson:
     return EscapeRoomOwnerPerson(username="us", password="ps", address=address, er_owner_person=person)
 
 
+def create_player() -> Player:
+    person = Person(first_name="Jan", last_name="Kowalski")
+    return Player(username="username", password="password", person=person)
+
+
 def create_group() -> Group:
     person1 = Person(first_name="Jan", last_name="Kowalski")
     person2 = Person(first_name="Anna", last_name="Nowak")

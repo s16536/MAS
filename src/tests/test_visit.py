@@ -37,13 +37,4 @@ class TestVisit(TestWithDB):
         self.session.commit()
 
         for field in ('group', 'escape_room', 'visit_date', 'duration', 'rating'):
-            self._mandatory_field_test(visit, field)
-
-    def _mandatory_field_test(self, visit, field):
-        original_value = getattr(visit, field)
-        setattr(visit, field, None)
-        print(f'test field {field}')
-        self.session.add(visit)
-        self.assertRaisesRegex(IntegrityError, f".*NOT NULL .*{field}", self.session.commit)
-        self.session.rollback()
-        setattr(visit, field, original_value)
+            self.mandatory_field_test(visit, field)
