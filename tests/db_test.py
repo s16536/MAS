@@ -5,12 +5,8 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
 
 from db.base import Base
-from models.user import Address, Person, Player, EscapeRoomOwner, EscapeRoomOwnerPerson
-from models.escape_room import EscapeRoom, EscapeRoomCategory, VariablePriceEscapeRoom, FixedPriceEscapeRoom
-from tests.test_data import create_person_owner, assert_test_owner
-from models.group import Group
-from models.visit import Visit
-from models.recommendation import Recommendation
+
+import models
 
 
 class TestWithDB(test.TestCase):

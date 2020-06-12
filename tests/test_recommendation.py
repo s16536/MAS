@@ -6,12 +6,12 @@ class TestVisit(TestWithDB):
     def test_create_recommendation(self):
         player = create_player()
         escape_room = create_escape_room()
-        recommendation = Recommendation(player=player, escape_room=escape_room, expected_rating=5)
+        recommendation = models.Recommendation(player=player, escape_room=escape_room, expected_rating=5)
 
         self.session.add(recommendation)
         self.session.commit()
 
-        saved_recommendation = self.session.query(Recommendation).one()
+        saved_recommendation = self.session.query(models.Recommendation).one()
         self.assertEqual(recommendation.player, saved_recommendation.player)
         self.assertEqual(recommendation.escape_room, saved_recommendation.escape_room)
         self.assertEqual(recommendation.expected_rating, saved_recommendation.expected_rating)
@@ -24,7 +24,7 @@ class TestVisit(TestWithDB):
     def test_mandatory_fields(self):
         player = create_player()
         escape_room = create_escape_room()
-        recommendation = Recommendation(player=player, escape_room=escape_room, expected_rating=5)
+        recommendation = models.Recommendation(player=player, escape_room=escape_room, expected_rating=5)
 
         self.session.add(player)
         self.session.add(escape_room)
@@ -36,14 +36,14 @@ class TestVisit(TestWithDB):
     def test_cascade_delete_recommendation_when_player_deleted(self):
         player = create_player()
         escape_room = create_escape_room()
-        recommendation = Recommendation(player=player, escape_room=escape_room, expected_rating=5)
+        recommendation = models.Recommendation(player=player, escape_room=escape_room, expected_rating=5)
         self.session.add(recommendation)
         self.session.commit()
-        recommendations = self.session.query(Recommendation)
+        recommendations = self.session.query(models.Recommendation)
         self.assertEqual(1, recommendations.count())
 
         self.session.delete(player)
         self.session.commit()
 
-        recommendations = self.session.query(Recommendation)
+        recommendations = self.session.query(models.Recommendation)
         self.assertEqual(0, recommendations.count())
