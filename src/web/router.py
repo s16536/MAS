@@ -4,6 +4,7 @@ from flask import render_template, request
 
 import models
 from db.base import db
+from web.error_pages import get_error_message
 
 
 def bind(app):
@@ -32,15 +33,19 @@ def register_visit_in_room_with_group(room_id, group_id):
         return render_template('new_visit_other_info.html', room=room, group=group)
     elif request.method == 'POST':
         print(request.form)
-        visit = models.Visit(
-            group=group,
-            escape_room=room,
-            visit_date=datetime.strptime(request.form.get('visitDate'), "%Y-%m-%d").date(),
-            duration=request.form.get('time'),
-            rating=request.form.get('rating')
-        )
-        db.session.add(visit)
-        db.session.commit()
+        try:
+            visit = models.Visit(
+                group=group,
+                escape_room=room,
+                visit_date=datetime.strptime(request.form.get('visitDate'), "%Y-%m-%d").date(),
+                duration=request.form.get('duration'),
+                rating=request.form.get('rating')
+            )
+            db.session.add(visit)
+            db.session.commit()
+        except Exception as exception:
+            return render_template("new_visit_error.html", error=get_error_message(exception))
+
         return render_template('new_visit_registered.html')
 
 
