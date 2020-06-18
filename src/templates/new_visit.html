@@ -16,7 +16,7 @@ Nowa wizyta
   
 <div class="list-group">
   {% for room in rooms %}
-  <a href="/register_visit/{{ room.id }}" class="list-group-item list-group-item-action">
+  <a href="/{{user.id}}/register_visit/{{ room.id }}" class="list-group-item list-group-item-action">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1">{{ room.name }}</h5>
       <small class="text-muted">{{ room.category }}</small>
