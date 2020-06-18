@@ -29,9 +29,12 @@ def main():
                                                price=80, owner=owner)
 
     group = create_group()
+    player = models.Player(username="sandra", password="pass",
+                           person=models.Person(first_name="Sandra", last_name="Rawicz"))
 
     session.add(escape_room)
     session.add(escape_room1)
+    session.add(player)
     session.add(group)
 
     try:
@@ -40,17 +43,6 @@ def main():
     except Exception as ex:
         print(ex)
 
-    # result = User.query.all()
-    result = session.query(models.User)
-    #
-    for row in result:
-        print(row)
-
-    # ers = session.query(EscapeRoom).all()
-    # print(ers)
-
-
-#
 
 if __name__ == '__main__':
     main()

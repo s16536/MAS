@@ -12,13 +12,10 @@
 
     <title>S-CAPE - {% block title %}{% endblock %}</title>
   </head>
-  <body>
-    <div class="container">
-      <div class="row">
-        <div class="col logo">
-          <a href="/#" class="stretched-link noDecoration">S-CAPE</a>
-        </div>
-      </div>
+  <body
+      {% with user=user %}
+        {% include "logo.html" %}
+      {% endwith %}
       <div class="row">
         <div class="col pageTitle">
           <div class="card text-center">

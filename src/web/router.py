@@ -24,7 +24,7 @@ def register_visit(user_id: int):
 def register_visit_in_room(user_id: int, room_id: int):
     user = models.User.query.get(user_id)
     room = models.EscapeRoom.query.get(room_id)
-    groups = models.Group.query.all()
+    groups = user.groups
     return render_template('new_visit_group_selection.html', user=user, room=room, groups=groups)
 
 
