@@ -13,6 +13,7 @@ def bind(app):
     app.route('/<int:user_id>/register_visit/<int:room_id>')(register_visit_in_room)
     app.route('/<int:user_id>/register_visit/<int:room_id>/<int:group_id>', methods=['GET', 'POST'])(
         register_visit_in_room_with_group)
+    app.route('/<int:user_id>/visits/')(get_visits)
 
 
 def register_visit(user_id: int):
@@ -25,6 +26,8 @@ def register_visit_in_room(user_id: int, room_id: int):
     user = models.User.query.get(user_id)
     room = models.EscapeRoom.query.get(room_id)
     groups = user.groups
+    if len(user.groups) < 1:
+        return render_template("new_visit_groups_error.html", user=user)
     return render_template('new_visit_group_selection.html', user=user, room=room, groups=groups)
 
 
@@ -47,11 +50,23 @@ def register_visit_in_room_with_group(user_id: int, room_id: int, group_id: int)
             db.session.add(visit)
             db.session.commit()
         except Exception as exception:
-            return render_template("new_visit_error.html", error=get_error_message(exception))
+            return render_template("new_visit_error.html", error=get_error_message(exception), user=user)
 
-        return render_template('new_visit_registered.html')
+        return render_template('new_visit_registered.html', user=user)
 
 
 def homepage(user_id: id):
     user = models.User.query.get(user_id)
     return render_template('homepage.html', user=user)
+
+
+def get_visits(user_id: id):
+    user = models.User.query.get(user_id)
+    visits = [v for v in (g.visits for g in user.groups)]
+    visits = [item for sublist in visits for item in sublist]
+
+    for visit in visits:
+        print(visit)
+
+    print("printed")
+    return render_template('visits.html', user=user, visits=visits)

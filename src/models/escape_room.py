@@ -3,7 +3,7 @@ from datetime import date
 
 import sqlalchemy as db
 from sqlalchemy import UniqueConstraint
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 from db.base import Base
 from exceptions import MissingRequiredParameterError

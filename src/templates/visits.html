@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+
+{% block title %}
+Twoje wizyty
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+<div class="col">
+  
+<div class="list-group">
+  {% for visit in visits %}
+  <div class="list-group-item">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ visit.escape_room.name }}</h5>
+      <small class="text-muted">Data: {{ visit.visit_date }}</small>
+    </div>
+    <div class="d-flex w-100 justify-content-between">
+      <p class="mb-1">{{ visit.group.name }}</p>
+      <small class="text-muted">Ocena: {{ visit.rating }}</small>
+    </div>
+
+  </div>
+  {% endfor %}
+</div>
+
+</div>
+</div>
+
+<p>
+  <div class="col-6 offset-3">
+    <a href="/{{ user.id }}" class="btn btn-block btn-outline-secondary">Powrót</a>
+  </div>
+
+{% endblock %}
