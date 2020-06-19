@@ -51,6 +51,7 @@ body, html {
 .btn {
     background: white;
     opacity: 0.75;
+    min-width: 55px;
 }
 
 .clickableCard {
