@@ -62,11 +62,5 @@ def homepage(user_id: id):
 
 def get_visits(user_id: id):
     user = models.User.query.get(user_id)
-    visits = [v for v in (g.visits for g in user.groups)]
-    visits = [item for sublist in visits for item in sublist]
-
-    for visit in visits:
-        print(visit)
-
-    print("printed")
-    return render_template('visits.html', user=user, visits=visits)
+    all_visits = [visit for visits in (visits for visits in (g.visits for g in user.groups)) for visit in visits]
+    return render_template('visits.html', user=user, visits=all_visits)

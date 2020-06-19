@@ -1,0 +1,49 @@
+.logo {
+	font-size: 65px;
+	font-family:"Fredericka the Great";
+	font-weight: bold;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	text-align: center;
+	text-decoration: none !important;
+	color: black !important;
+}
+
+.noDecoration {
+	text-decoration: none !important;
+	color: black !important;
+}
+
+.pageTitle {
+	font-size: 24px;
+}
+.pageContent {
+	margin-top: 75px;
+}
+
+.menuTile {
+	height: 200px;
+}
+
+.menuTile:hover {
+	background: #aaa9a9;
+	color: white;
+}
+
+.h5, h5 {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.menuTileText {
+	font-size: 20px;
+	font-variant: light;
+}
+
+.clickableCard {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+}
