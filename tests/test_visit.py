@@ -8,7 +8,7 @@ class TestVisit(TestWithDB):
     def test_create_visit(self):
         group = create_group()
         escape_room = create_escape_room()
-        visit = models.Visit(group=group, escape_room=escape_room, visit_date=date(2020, 1, 1), duration=50, rating=5)
+        visit = models.Visit(group=group, escape_room=escape_room, visit_date=date(2020, 5, 1), duration=50, rating=5)
 
         self.session.add(visit)
         self.session.commit()
@@ -28,7 +28,7 @@ class TestVisit(TestWithDB):
     def test_mandatory_fields(self):
         group = create_group()
         escape_room = create_escape_room()
-        visit = models.Visit(group=group, escape_room=escape_room, visit_date=date(2020, 1, 1), duration=50, rating=5)
+        visit = models.Visit(group=group, escape_room=escape_room, visit_date=date(2020, 5, 2), duration=50, rating=5)
 
         self.session.add(group)
         self.session.add(escape_room)
