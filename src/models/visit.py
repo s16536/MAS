@@ -28,7 +28,7 @@ class Visit(Base):
         if self.visit_date > date.today():
             raise EscapeRoomClosedError()
         if not self.escape_room.is_open(self.visit_date):
-            raise EscapeRoomClosedError()
+            raise IncorrectDateError()
 
 
 class IncorrectDurationError(ValueError):
