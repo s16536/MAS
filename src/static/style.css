@@ -1,3 +1,8 @@
+body, html {
+ background-image: url("https://unblast.com/wp-content/uploads/2018/12/Subtle-Patterns-8.jpg") !important;
+ font-family: 'Oswald', sans-serif;
+}
+
 .logo {
 	font-size: 65px;
 	font-family:"Fredericka the Great";
@@ -16,13 +21,16 @@
 
 .pageTitle {
 	font-size: 24px;
+    opacity: 0.75;
 }
+
 .pageContent {
 	margin-top: 75px;
 }
 
 .menuTile {
 	height: 200px;
+	opacity: 0.75;
 }
 
 .menuTile:hover {
@@ -40,10 +48,19 @@
 	font-variant: light;
 }
 
+.btn {
+    background: white;
+}
+
 .clickableCard {
 	position: absolute;
 	top: 0;
 	left: 0;
 	height: 100%;
 	width: 100%;
+	opacity: 0.1;
+}
+
+.list-group-item-action {
+    opacity:0.85;
 }
