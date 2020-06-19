@@ -16,20 +16,30 @@
     <title>S-CAPE - {% block title %}{% endblock %}</title>
   </head>
   <body
-      {% with user=user %}
-        {% include "logo.html" %}
-      {% endwith %}
-      <div class="row">
-        <div class="col pageTitle">
-          <div class="card text-center">
-            <div class="card-body">
-              <h5 class="card-text">{{ self.title() }}</h5>
-            </div>
+          {% with user=user %}
+          {% include
+  "logo.html" %}
+  {% endwith %}
+
+  <div class="container-fluid">
+  <div class="container-inner">
+    <div class="row">
+      <div class="col pageTitle">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-text">{{ self.title() }}</h5>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="pageContent">
-        {% block body %}{% endblock %}
-      </div>
+    <div class="pageContent">
+
+      {% block body %}{% endblock %}
+
+    </div>
+  </div>
+  </div>
+
+
 </html>
