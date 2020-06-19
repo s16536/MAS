@@ -35,8 +35,9 @@ def register_visit_in_room_with_group(user_id: int, room_id: int, group_id: int)
     user = models.User.query.get(user_id)
     group = models.Group.query.get(group_id)
     room = models.EscapeRoom.query.get(room_id)
+    today = date.today()
     if request.method == 'GET':
-        return render_template('new_visit_other_info.html', user=user, room=room, group=group)
+        return render_template('new_visit_other_info.html', user=user, room=room, group=group, today=today)
     elif request.method == 'POST':
         print(request.form)
         try:
