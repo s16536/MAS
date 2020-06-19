@@ -67,6 +67,19 @@ class EscapeRoomOwnerPerson(EscapeRoomOwner):
     er_owner_person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
     er_owner_person = relationship("Person", foreign_keys=[er_owner_person_id])
 
+    def __repr__(self) -> str:
+        return " ".join((self.er_owner_person.first_name, self.er_owner_person.last_name))
+
+
+class EscapeRoomOwnerCompany(EscapeRoomOwner):
+    __mapper_args__ = {'polymorphic_identity': 'er_owner_company'}
+
+    name = db.Column(db.String(120))
+    establishment_date = db.Column(db.Date)
+
+    def __repr__(self) -> str:
+        return self.name
+
 
 class Person(Base):
     __tablename__ = 'person'

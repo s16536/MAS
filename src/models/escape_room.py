@@ -16,6 +16,15 @@ class EscapeRoomCategory(enum.Enum):
     HISTORY = enum.auto()
     CRIME = enum.auto()
 
+    def __str__(self):
+        return {
+            EscapeRoomCategory.ADVENTURE: "Przygodowy",
+            EscapeRoomCategory.THRILLER: "Thriller",
+            EscapeRoomCategory.HORROR: "Horror",
+            EscapeRoomCategory.HISTORY: "Historyczny",
+            EscapeRoomCategory.CRIME: "Kryminalny"
+        }[self]
+
 
 class EscapeRoom(Base):
     __tablename__ = 'escape_room'

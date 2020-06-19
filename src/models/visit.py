@@ -26,9 +26,9 @@ class Visit(Base):
         if not 1 <= int(self.rating) <= 5:
             raise IncorrectRatingError()
         if self.visit_date > date.today():
-            raise EscapeRoomClosedError()
-        if not self.escape_room.is_open(self.visit_date):
             raise IncorrectDateError()
+        if not self.escape_room.is_open(self.visit_date):
+            raise EscapeRoomClosedError()
 
 
 class IncorrectDurationError(ValueError):
