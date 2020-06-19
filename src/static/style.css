@@ -4,11 +4,11 @@ body, html {
 }
 
 .logo {
-	font-size: 65px;
+	font-size: 12vh;
 	font-family:"Fredericka the Great";
 	font-weight: bold;
-	margin-top: 50px;
-	margin-bottom: 50px;
+	margin-top: 5vh;
+	margin-bottom: 5vh;
 	text-align: center;
 	text-decoration: none !important;
 	color: black !important;
@@ -20,16 +20,15 @@ body, html {
 }
 
 .pageTitle {
-	font-size: 24px;
     opacity: 0.75;
 }
 
 .pageContent {
-	margin-top: 75px;
+	margin-top: 3vh;
 }
 
 .menuTile {
-	height: 200px;
+	height: 25vh;
 	opacity: 0.75;
 }
 
@@ -39,12 +38,12 @@ body, html {
 }
 
 .h5, h5 {
-    font-size: 23px;
+	font-size: 3.5vh;
     font-weight: bold;
 }
 
 .menuTileText {
-	font-size: 20px;
+	font-size: 3.2vh;
 	font-variant: light;
 }
 
