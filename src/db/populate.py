@@ -1,9 +1,6 @@
 from datetime import date
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
-from db.base import db, Base, db_short_name, engine, Session
+from db.base import Base, engine, Session
 from tests.test_data import create_group
 
 import models
@@ -61,6 +58,10 @@ def main():
     player2 = models.Player(username="us4", password="pass",
                             person=models.Person(first_name="Anna", last_name="Barańska"))
 
+
+    player3 = models.Player(username="us5", password="pass",
+                            person=models.Person(first_name="Jan", last_name="Nowacki"))
+
     group2 = models.Group(name="Ja i mój chłopak", players=[player1])
     group3 = models.Group(name="Znajomi z pracy", players=[player1, player2])
 
@@ -71,7 +72,7 @@ def main():
     recommendation2 = models.Recommendation(player=player2, escape_room=escape_room2, expected_rating=5)
     recommendation3 = models.Recommendation(player=player1, escape_room=escape_room3, expected_rating=3)
 
-    objects = [escape_room1, escape_room2, escape_room3, escape_room4, escape_room5, escape_room6,
+    objects = [escape_room1, escape_room2, escape_room3, escape_room4, escape_room5, escape_room6, player3,
                group1, group2, group3, visit1, visit2, recommendation1, recommendation2, recommendation3]
 
     session.add(player1)

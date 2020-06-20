@@ -1,13 +1,24 @@
 {% extends "index.html" %}
 
 {% block title %}
-  {% for error in errors %}
-    <p>{{ error }}</p>
-  {% endfor %}
-{{ error }}
+Nie można zarejestrować wizyty
 {% endblock %}
 
 {% block body %}
+
+<div class="row">
+    <div class="col pageTitle" style="margin-bottom:2vh;">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-text-c1">
+                  {% for error in errors %}
+                  <p>{{ error }}</p>
+                  {% endfor %}
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% include 'btn_return.html' %}
 

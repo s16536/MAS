@@ -3,7 +3,6 @@ from typing import List
 import sqlalchemy as db
 from sqlalchemy.orm import relationship
 
-from classes.player import Player
 from db.base import Base
 from models.class_attributes import get_class_attribute, set_class_attribute
 from exceptions import MissingRequiredParameterError
@@ -23,7 +22,7 @@ class Group(Base):
     players = relationship("Player", secondary=player_group_table, back_populates="groups")
     visits = relationship("Visit", back_populates="group")
 
-    def __init__(self, name: str, players: List[Player]):
+    def __init__(self, name: str, players: List):
         if type(players) is not list or len(players) < 1:
             raise MissingRequiredParameterError("Players", self.__class__.name)
 
