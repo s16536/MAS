@@ -1,5 +1,6 @@
 from datetime import date, datetime
 
+import flask
 from flask import render_template, request
 
 import models
@@ -8,6 +9,7 @@ from web.error_pages import get_error_message
 
 
 def bind(app):
+    app.route('/')(start)
     app.route('/<int:user_id>')(homepage)
     app.route('/<int:user_id>/register_visit/')(register_visit)
     app.route('/<int:user_id>/register_visit/<int:room_id>')(register_visit_in_room)
@@ -51,7 +53,7 @@ def register_visit_in_room_with_group(user_id: int, room_id: int, group_id: int)
             db.session.add(visit)
             db.session.commit()
         except Exception as exception:
-            return render_template("new_visit_error.html", error=get_error_message(exception), user=user)
+            return render_template("new_visit_error.html", errors=get_error_message(exception, room), user=user)
 
         return render_template('new_visit_registered.html', user=user)
 
@@ -59,6 +61,10 @@ def register_visit_in_room_with_group(user_id: int, room_id: int, group_id: int)
 def homepage(user_id: id):
     user = models.User.query.get(user_id)
     return render_template('homepage.html', user=user)
+
+
+def start():
+    return flask.redirect("/1")
 
 
 def get_visits(user_id: id):

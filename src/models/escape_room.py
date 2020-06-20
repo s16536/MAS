@@ -3,7 +3,7 @@ from datetime import date
 
 import sqlalchemy as db
 from sqlalchemy import UniqueConstraint
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
 
 from db.base import Base
 from exceptions import MissingRequiredParameterError
@@ -57,6 +57,9 @@ class EscapeRoom(Base):
 class FixedPriceEscapeRoom(EscapeRoom):
     __mapper_args__ = {'polymorphic_identity': 'fixed_price'}
 
+    def get_price(self) -> float:
+        return self.price
+
 
 class VariablePriceEscapeRoom(EscapeRoom):
     __mapper_args__ = {'polymorphic_identity': 'variable_price'}
@@ -67,3 +70,23 @@ class VariablePriceEscapeRoom(EscapeRoom):
         if kwargs.get('max_price') is None:
             raise MissingRequiredParameterError('max_price', self.__class__.__name__)
         super().__init__(*args, **kwargs)
+
+    def get_price(self, no_of_players: int) -> float:
+        return min(no_of_players * self.price, self.max_price)
+
+
+class WeekendPriceEscapeRoom(EscapeRoom):
+    __mapper_args__ = {'polymorphic_identity': 'weekend_price'}
+
+    weekend_price = db.Column(db.Integer)
+
+    def __init__(self, *args, **kwargs):
+        if kwargs.get('weekend_price') is None:
+            raise MissingRequiredParameterError('weekend_price', self.__class__.__name__)
+        super().__init__(*args, **kwargs)
+
+    def get_price(self, when: date) -> float:
+        weekday = when.weekday()
+        if weekday < 5:
+            return self.price
+        return self.weekend_price

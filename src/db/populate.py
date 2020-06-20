@@ -47,7 +47,8 @@ def main():
                                                max_players_no=5,
                                                price=80, owner=owner_2)
 
-    escape_room4 = models.FixedPriceEscapeRoom(name="Uprowadzeni przez wampir   a", opening_date=date(2020, 5, 1),
+    escape_room4 = models.FixedPriceEscapeRoom(name="Uprowadzeni przez wampira", opening_date=date(2019, 1, 1),
+                                               closing_date=date(2020, 5, 3),
                                                category=models.EscapeRoomCategory.THRILLER, min_players_no=1,
                                                max_players_no=5,
                                                price=80, owner=owner_2)
@@ -64,7 +65,7 @@ def main():
     player2 = models.Player(username="us4", password="pass",
                             person=models.Person(first_name="Anna", last_name="Barańska"))
 
-    group1 = models.Group(name="Znajomi pracy", players=[player, player2])
+    group1 = models.Group(name="Znajomi z pracy", players=[player, player2])
     group2 = models.Group(name="Ja i mój chłopak", players=[player])
 
     visit = models.Visit(group=group1, escape_room=escape_room, visit_date=date(2020, 6, 16), duration=50, rating=5)
