@@ -60,7 +60,7 @@ def main():
 
     group = create_group()
     player = models.Player(username="sandra", password="pass",
-                           person=models.Person(first_name="Sandra", last_name="Rawicz"), id=1)
+                           person=models.Person(first_name="Sandra", last_name="Rawicz"))
 
     player2 = models.Player(username="us4", password="pass",
                             person=models.Person(first_name="Anna", last_name="Barańska"))
@@ -72,6 +72,12 @@ def main():
     visit1 = models.Visit(group=group2, escape_room=escape_room2, visit_date=date(2020, 6, 19), duration=61, rating=3)
 
     session.add(player)
+    try:
+        session.commit()
+
+    except Exception as ex:
+        print(ex)
+
     session.add(escape_room)
     session.add(escape_room1)
     session.add(escape_room2)
@@ -90,6 +96,9 @@ def main():
     except Exception as ex:
         print(ex)
 
+
+    print(person.player)
+    print(person.er_owner)
 
 if __name__ == '__main__':
     main()

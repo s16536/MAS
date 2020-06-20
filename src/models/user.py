@@ -1,7 +1,7 @@
 from typing import Optional
 
 import sqlalchemy as db
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from db.base import Base
 from exceptions import MissingRequiredParameterError
 from models.group import player_group_table
@@ -36,7 +36,8 @@ class Player(User):
     __mapper_args__ = {'polymorphic_identity': 'player'}
 
     person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
-    person = relationship("Person", foreign_keys=[person_id])
+    person = relationship("Person", foreign_keys=[person_id],
+                          backref=backref(name="player", uselist=False))
     groups = relationship("Group", secondary=player_group_table, back_populates="players")
     recommendations = relationship("Recommendation", cascade="all,delete", back_populates="player")
 
@@ -65,7 +66,8 @@ class EscapeRoomOwnerPerson(EscapeRoomOwner):
     __mapper_args__ = {'polymorphic_identity': 'er_owner_person'}
 
     er_owner_person_id = db.Column(db.Integer, db.ForeignKey('person.id'))
-    er_owner_person = relationship("Person", foreign_keys=[er_owner_person_id])
+    er_owner_person = relationship("Person", foreign_keys=[er_owner_person_id],
+                                   backref=backref(name="er_owner", uselist=False))
 
     def __repr__(self) -> str:
         return " ".join((self.er_owner_person.first_name, self.er_owner_person.last_name))
@@ -87,3 +89,8 @@ class Person(Base):
 
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
+
+    # er_owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    # player_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    # er_owner = relationship("EscapeRoomOwnerPerson", foreign_keys=[er_owner_id])
+    # player = relationship("Player", foreign_keys=[player_id])
