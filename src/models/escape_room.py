@@ -1,5 +1,6 @@
 import enum
 from datetime import date
+from statistics import mean
 
 import sqlalchemy as db
 from sqlalchemy import UniqueConstraint
@@ -52,6 +53,11 @@ class EscapeRoom(Base):
 
     def open(self):
         self.closing_date = False
+
+    def get_rating(self):
+        if len(self.visits) < 1:
+            return None
+        return mean([visit.rating for visit in self.visits])
 
 
 class FixedPriceEscapeRoom(EscapeRoom):

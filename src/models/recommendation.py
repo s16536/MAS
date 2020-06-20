@@ -2,6 +2,7 @@ import sqlalchemy as db
 from sqlalchemy.orm import relationship
 
 from db.base import Base
+from models.visit import IncorrectRatingError
 
 
 class Recommendation(Base):
@@ -14,3 +15,9 @@ class Recommendation(Base):
     player = relationship("Player", back_populates="recommendations")
     escape_room_id = db.Column(db.Integer, db.ForeignKey('escape_room.id'), nullable=False)
     escape_room = relationship("EscapeRoom", back_populates="recommendations")
+
+    def __init__(self, *args, **kwargs) -> None:
+        if not 1 <= int(kwargs.get("expected_rating")) <= 5:
+            raise IncorrectRatingError()
+
+        super().__init__(*args, **kwargs)
