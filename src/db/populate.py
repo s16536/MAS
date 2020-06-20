@@ -3,16 +3,13 @@ from datetime import date
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from db.base import db, Base
-from tests.test_data import create_person_owner, create_group
+from db.base import db, Base, db_short_name, engine, Session
+from tests.test_data import create_group
 
 import models
 
 
 def main():
-    engine = create_engine('sqlite:///mydb3.db')
-
-    Session = sessionmaker(bind=engine)
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
@@ -53,13 +50,13 @@ def main():
                                                max_players_no=5,
                                                price=80, owner=owner_2)
     escape_room6 = models.FixedPriceEscapeRoom(name="Subnautica", opening_date=date(2020, 5, 1),
-                                              category=models.EscapeRoomCategory.ADVENTURE, min_players_no=1,
-                                              max_players_no=5,
-                                              price=80, owner=owner_1)
+                                               category=models.EscapeRoomCategory.ADVENTURE, min_players_no=1,
+                                               max_players_no=5,
+                                               price=80, owner=owner_1)
 
     group1 = create_group()
     player1 = models.Player(username="sandra", password="pass",
-                           person=models.Person(first_name="Sandra", last_name="Rawicz"))
+                            person=models.Person(first_name="Sandra", last_name="Rawicz"))
 
     player2 = models.Player(username="us4", password="pass",
                             person=models.Person(first_name="Anna", last_name="Barańska"))
@@ -93,10 +90,10 @@ def main():
     except Exception as ex:
         print(ex)
 
-
     print(person.player)
     print(person.er_owner)
     print(escape_room5.get_rating())
+
 
 if __name__ == '__main__':
     main()

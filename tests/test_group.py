@@ -4,12 +4,20 @@ from tests.test_data import assert_player
 
 
 class TestGroup(TestWithDB):
+
+    def test_set_max_players_no(self):
+        self.assertEqual(8, models.Group.get_max_players_no(), self.session())
+        models.Group.set_max_players_no(3)
+        self.assertEqual(3, models.Group.get_max_players_no(), self.session())
+        models.Group.set_max_players_no(2)
+        self.assertEqual(2, models.Group.get_max_players_no(), self.session())
+
     def test_group_cannot_exist_without_user(self):
         self.assertRaisesRegex(MissingRequiredParameterError, ".*Players.*", models.Group, name="name", players=[])
 
     def test_no_of_players_cannot_exceed_limit(self):
         players = []
-        for i in range(0, models.Group.max_players_no + 2):
+        for i in range(0, models.Group.get_max_players_no() + 2):
             person = models.Person(first_name="Jan", last_name="Kowalski")
             player = models.Player(person=person, username=f"jkowal{i}", password="pass")
             players.append(player)
