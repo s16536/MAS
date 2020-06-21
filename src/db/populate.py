@@ -10,6 +10,8 @@ def main():
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
+    models.Group.set_max_players_no(5)
+
     session = Session()
 
     address_1 = models.Address("city", "postcode", "street", 2)

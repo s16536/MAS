@@ -1,12 +1,12 @@
 from sqlalchemy import UniqueConstraint
 
-from db.base import Base, Session
+from db.base import Base
 import sqlalchemy as db
 
 cached_attributes = dict()
 
 
-def get_class_attribute(cls, attribute_name, session=Session()):
+def get_class_attribute(cls, attribute_name, session):
     cached_value = cached_attributes.get((cls, attribute_name))
     if cached_value is not None:
         return cached_value
@@ -20,10 +20,9 @@ def get_class_attribute(cls, attribute_name, session=Session()):
     return attribute.value
 
 
-def set_class_attribute(cls, attribute_name, value):
+def set_class_attribute(cls, attribute_name, value, session):
     cached_attributes[(cls, attribute_name)] = value
 
-    session = Session()
     attribute = session.query(ClassAttributes).filter_by(class_name=cls.__name__, attribute_name=attribute_name).first()
 
     if attribute is None:

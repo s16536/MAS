@@ -3,7 +3,7 @@ from typing import List
 import sqlalchemy as db
 from sqlalchemy.orm import relationship
 
-from db.base import Base
+from db.base import Base, Session
 from models.class_attributes import get_class_attribute, set_class_attribute
 from exceptions import MissingRequiredParameterError
 
@@ -22,14 +22,14 @@ class Group(Base):
     players = relationship("Player", secondary=player_group_table, back_populates="groups")
     visits = relationship("Visit", back_populates="group")
 
-    def __init__(self, name: str, players: List):
+    def __init__(self, name: str, players: List, session=Session()):
         if type(players) is not list or len(players) < 1:
             raise MissingRequiredParameterError("Players", self.__class__.name)
 
         if name is None:
             raise MissingRequiredParameterError("Name", self.__class__.name)
 
-        max_players_no = self.get_max_players_no()
+        max_players_no = self.get_max_players_no(session)
         if len(players) > max_players_no:
             raise ValueError(f"Number of players exceeds the limit of {max_players_no}!")
 
@@ -37,12 +37,12 @@ class Group(Base):
         self.name = name
 
     @classmethod
-    def get_max_players_no(cls) -> int:
-        value = get_class_attribute(cls, "max_players_no")
+    def get_max_players_no(cls, session=Session()) -> int:
+        value = get_class_attribute(cls, "max_players_no", session)
         if value is None:
             return 8
         return int(value)
 
     @classmethod
-    def set_max_players_no (cls, value: int) -> None:
-        return set_class_attribute(cls, "max_players_no", value)
+    def set_max_players_no(cls, value: int, session=Session()) -> None:
+        return set_class_attribute(cls, "max_players_no", value, session)

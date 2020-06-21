@@ -6,30 +6,32 @@ from tests.test_data import assert_player
 class TestGroup(TestWithDB):
 
     def test_set_max_players_no(self):
-        self.assertEqual(8, models.Group.get_max_players_no(), self.session())
-        models.Group.set_max_players_no(3)
-        self.assertEqual(3, models.Group.get_max_players_no(), self.session())
-        models.Group.set_max_players_no(2)
-        self.assertEqual(2, models.Group.get_max_players_no(), self.session())
+        self.assertEqual(8, models.Group.get_max_players_no(self.session))
+        models.Group.set_max_players_no(3, self.session)
+        self.assertEqual(3, models.Group.get_max_players_no(self.session))
+        models.Group.set_max_players_no(2, self.session)
+        self.assertEqual(2, models.Group.get_max_players_no(self.session))
 
     def test_group_cannot_exist_without_user(self):
-        self.assertRaisesRegex(MissingRequiredParameterError, ".*Players.*", models.Group, name="name", players=[])
+        self.assertRaisesRegex(MissingRequiredParameterError, ".*Players.*", models.Group,
+                               name="name", players=[], session=self.session)
 
     def test_no_of_players_cannot_exceed_limit(self):
         players = []
-        for i in range(0, models.Group.get_max_players_no() + 2):
+        for i in range(0, models.Group.get_max_players_no(self.session) + 2):
             person = models.Person(first_name="Jan", last_name="Kowalski")
             player = models.Player(person=person, username=f"jkowal{i}", password="pass")
             players.append(player)
 
-        self.assertRaisesRegex(ValueError, ".*exceeds the limit.*", models.Group, name="group", players=players )
+        self.assertRaisesRegex(ValueError, ".*exceeds the limit.*", models.Group,
+                               name="group", players=players, session=self.session)
 
     def test_create_group(self):
         person1 = models.Person(first_name="Jan", last_name="Kowalski")
         person2 = models.Person(first_name="Anna", last_name="Nowak")
         player1 = models.Player(person=person1, username="jkowal", password="pass")
         player2 = models.Player(person=person2, username="anowak", password="pass")
-        group = models.Group(name="group", players=[player1, player2])
+        group = models.Group(name="group", players=[player1, player2], session=self.session)
 
         self.session.add(group)
         self.session.commit()
