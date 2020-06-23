@@ -41,7 +41,6 @@ def register_visit_in_room_with_group(user_id: int, room_id: int, group_id: int)
     if request.method == 'GET':
         return render_template('new_visit_other_info.html', user=user, room=room, group=group, today=today)
     elif request.method == 'POST':
-        print(request.form)
         try:
             visit = models.Visit(
                 group=group,

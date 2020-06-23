@@ -31,13 +31,13 @@ def main():
                                                category=models.EscapeRoomCategory.THRILLER, min_players_no=1,
                                                max_players_no=5,
                                                price=80, owner=owner_1)
-    escape_room2 = models.FixedPriceEscapeRoom(name="Dziki zachód", opening_date=date(2020, 5, 1),
+    escape_room2 = models.VariablePriceEscapeRoom(name="Dziki zachód", opening_date=date(2020, 5, 1),
                                                category=models.EscapeRoomCategory.HORROR, min_players_no=1,
-                                               max_players_no=5,
+                                               max_players_no=5, max_price=15,
                                                price=80, owner=owner_3)
-    escape_room3 = models.FixedPriceEscapeRoom(name="Wszyscy ludzie prezydenta", opening_date=date(2020, 5, 1),
+    escape_room3 = models.WeekendPriceEscapeRoom(name="Wszyscy ludzie prezydenta", opening_date=date(2020, 5, 1),
                                                category=models.EscapeRoomCategory.CRIME, min_players_no=1,
-                                               max_players_no=5,
+                                               max_players_no=5, weekend_price=90,
                                                price=80, owner=owner_2)
     escape_room4 = models.FixedPriceEscapeRoom(name="Uprowadzeni przez wampira", opening_date=date(2019, 1, 1),
                                                closing_date=date(2020, 5, 3),
